@@ -1,0 +1,13 @@
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: light-dark(#f4f4f4, #0c0c0c);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    position: relative;
+    /* Set relative positioning for absolute children */
+}

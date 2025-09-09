@@ -1,0 +1,95 @@
+.sidebar {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    width: 250px;
+    background-color: light-dark(rgba(17, 17, 17, 0.85), rgba(25, 25, 25, 0.85));
+    color: #fff;
+    padding: 20px;
+    height: 100%;
+    overflow: auto;
+    position: fixed;
+    z-index: 1;
+    -webkit-transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+    scrollbar-width: none;
+}
+
+.sidebar.show {
+    transform: translateX(0);
+}
+
+.sidebar.show+.openbtn {
+    left: 290px;
+}
+
+.sidebar:not(.show)+.openbtn {
+    left: 0px;
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.welcome-text {
+    color: #007bff;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.search-bar {
+    width: 230px;
+    line-height: 1.5vh;
+    border-radius: 10px;
+    padding: 0.5vh;
+}
+
+.active-list,
+.song-list {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid #fff;
+    padding-top: 20px;
+}
+
+.song-list[title]::before,
+.active-list[title]::before {
+    content: attr(title);
+    display: block;
+    font-size: 15px;
+    line-height: 30px;
+    color: #aaa;
+    font-weight: bold;
+}
+
+.active-list li,
+.song-list li {
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.active-list li:hover,
+.song-list li:hover {
+    text-decoration: none;
+}
+
+.openbtn {
+    position: sticky;
+    top: 0;
+    left: 290px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: light-dark(rgba(17, 17, 17, 0.85), rgba(25, 25, 25, 0.85));
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    height: 6vh;
+    max-height: 6vh;
+    -webkit-transition: left 0.3s ease-in-out;
+    transition: left 0.3s ease-in-out;
+    z-index: 3;
+}
