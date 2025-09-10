@@ -78,7 +78,7 @@
 }
 
 .openbtn {
-    position: sticky;
+    position: relative;
     top: 0;
     left: 290px;
     font-size: 20px;

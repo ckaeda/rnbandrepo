@@ -1,13 +1,20 @@
+import { useState } from 'react'
 import './options.css'
 
 function Options() {
+    const [isShown, setIsShown] = useState(true);
+
+    const toggleOptions = () => {
+        setIsShown(!isShown);
+    }
+
     return (
         <>
-            <button className="toggle-settings-button" id="toggleSettingsButton">
-                <img src="src\settings-icon.png" alt="Settings" className="settings-icon" />
+            <button className="toggle-settings-button" id="toggleSettingsButton" onClick={toggleOptions}>
+                <img src="public\settings-icon.png" alt="Settings" className="settings-icon" />
             </button>
 
-            <div className="settings-container" id="settingsContainer" style={{display: 'block'}}>
+            <div className={"settings-container " + (isShown ? "fade-in-down" : "fade-out-up")} id="settingsContainer" style={{display: 'block'}}>
                 <div className="transpose-container" id="transposeContainer" style={{display: 'flex'}}>
                     <div className="transpose-text">Transpose</div>
                     <div className="toggle-button" id="toggleButton">
