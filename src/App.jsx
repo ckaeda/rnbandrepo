@@ -20,7 +20,6 @@ function App() {
   useEffect(() => {
     if (!activeSong.title) return;
     if (showSidebar) toggleSidebar();
-    if (showOptions) toggleOptions();
   }, [activeSong]);
 
   return (

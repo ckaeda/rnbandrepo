@@ -18,7 +18,6 @@
 
 .lyrics-container h2 {
     margin-top: 10px;
-    /* Add space between h1 and h2 */
     font-size: 18px;
     color: light-dark(#555, #bbb);
 }
@@ -42,5 +41,6 @@
 }
 
 .chord {
+    padding-right: 10px;
     color: #0067d4;
 }

@@ -14,7 +14,6 @@ export function fetchAllSongs() {
         if (!res.ok) throw new Error(`HTTP error! ${res.status}`);
         const data = await res.json();
         setSongs(data);
-        console.log(data);
       } catch (err) {
         setError(err.message);
         console.log("Error fetching songs:", err);
