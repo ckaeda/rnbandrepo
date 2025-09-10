@@ -1,39 +1,12 @@
 import './sidebar.css'
 import SongList from './songList';
+import { fetchAllSongs } from '../../hooks/fetchAllSongs';
 
 function Sidebar({ setActiveSong, showSidebar, toggleSidebar }) {
-    const testArray = [
-        {
-            title: 'Nobody Like You',
-            artist: 'Planetshakers',
-            singer: "Julia"
-        },
-        {
-            title: 'No One',
-            artist: 'Elevation Worship',
-            singer: "Cara"
-        },
-        {
-            title: 'Worthy',
-            artist: 'Elevation Worship',
-            singer: "Cara"
-        },
-        {
-            title: 'Worthy Of It All',
-            artist: 'CeCe Winans',
-            singer: "Cara"
-        },
-        {
-            title: 'Name Above All Names',
-            artist: 'Charity Gayle',
-            singer: "Annaree"
-        },
-        {
-            title: 'Faithfulness',
-            artist: 'Lakewood Music',
-            singer: "Annaree"
-        }
-    ]
+    const { songs, loading, error } = fetchAllSongs();
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
 
     return (
         <>
@@ -43,18 +16,30 @@ function Sidebar({ setActiveSong, showSidebar, toggleSidebar }) {
                 <SongList
                     type="active"
                     title="SWC"
-                    songArray={testArray.map((song, index) => { return { ...song, id: index } })}
+                    songArray={songs.filter(song => song.swc != 0).sort((a, b) => a.swc - b.swc)}
                     setActiveSong={setActiveSong}
                 />
-                <ul className="active-list" id="activeListTNL" title="TNL"></ul>
-                <ul className="active-list" id="activeListEvent" title=""></ul>
+                <SongList
+                    type="active"
+                    title="TNL"
+                    songArray={songs.filter(song => song.tnl != 0).sort((a, b) => a.tnl - b.tnl)}
+                    setActiveSong={setActiveSong}
+                />
+                <SongList
+                    type="active"
+                    title=""
+                    songArray={songs.filter(song => song.event != 0).sort((a, b) => a.event - b.event)}
+                    setActiveSong={setActiveSong}
+                />
                 <SongList
                     title="ACTIVE ROTATION"
-                    songArray={["Song 1", "Song 2", "Song 3"].map((song, index) => { return { title: song, id: index } })}
+                    songArray={songs.filter(song => song.active).sort((a, b) => a.title.localeCompare(b.title))}
+                    setActiveSong={setActiveSong}
                 />
                 <SongList
                     title="SONG LIBRARY"
-                    songArray={["Song 1", "Song 2", "Song 3"].map((song, index) => { return { title: song, id: index } })}
+                    songArray={songs.filter(song => !song.active).sort((a, b) => a.title.localeCompare(b.title))}
+                    setActiveSong={setActiveSong}
                 />
             </div>
             <button className="openbtn" id="openbtn" onClick={toggleSidebar} >☰</button>

@@ -24,20 +24,20 @@ function App() {
   }, [activeSong]);
 
   return (
-    <>
-      <Sidebar 
+    <div id='container' style={{ display: 'flex' }}>
+      <Sidebar
         setActiveSong={setActiveSong}
         showSidebar={showSidebar}
         toggleSidebar={toggleSidebar}
       />
-      <Options 
+      <Options
         showOptions={showOptions}
         toggleOptions={toggleOptions}
       />
-      <SongContainer 
+      <SongContainer
         activeSong={activeSong}
       />
-    </>
+    </div>
   )
 }
 
