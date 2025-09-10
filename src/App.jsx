@@ -2,7 +2,7 @@ import { useState } from 'react'
 // import './App.css'
 import SongContainer from './components/SongContainer'
 import Options from './components/Options'
-import Sidebar from './components/Sidebar'
+import Sidebar from './components/sidebarcomponents/Sidebar'
 
 function App() {
   return (

@@ -11,7 +11,7 @@ function Options() {
     return (
         <>
             <button className="toggle-settings-button" id="toggleSettingsButton" onClick={toggleOptions}>
-                <img src="public\settings-icon.png" alt="Settings" className="settings-icon" />
+                <img src="settings-icon.png" alt="Settings" className="settings-icon" />
             </button>
 
             <div className={"settings-container " + (isShown ? "fade-in-down" : "fade-out-up")} id="settingsContainer" style={{display: 'block'}}>
