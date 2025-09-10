@@ -1,59 +1,59 @@
-import { useState } from 'react'
 import './sidebar.css'
 import SongList from './songList';
 
-function Sidebar() {
-    const [isShown, setIsShown] = useState(true);
-
-    const toggleSidebar = () => {
-        setIsShown(!isShown);
-    }
-
+function Sidebar({ setActiveSong, showSidebar, toggleSidebar }) {
     const testArray = [
         {
-            title: 'Nobody Like You - Planetshakers',
+            title: 'Nobody Like You',
+            artist: 'Planetshakers',
             singer: "Julia"
         },
         {
-            title: 'No One - Elevation Worship',
+            title: 'No One',
+            artist: 'Elevation Worship',
             singer: "Cara"
         },
         {
-            title: 'Worthy - Elevation Worship',
+            title: 'Worthy',
+            artist: 'Elevation Worship',
             singer: "Cara"
         },
         {
-            title: 'Worthy Of It All - CeCe Winans',
+            title: 'Worthy Of It All',
+            artist: 'CeCe Winans',
             singer: "Cara"
         },
         {
-            title: 'Name Above All Names - Charity Gayle',
+            title: 'Name Above All Names',
+            artist: 'Charity Gayle',
             singer: "Annaree"
         },
         {
-            title: 'Faithfulness - Lakewood Music',
+            title: 'Faithfulness',
+            artist: 'Lakewood Music',
             singer: "Annaree"
         }
     ]
 
     return (
         <>
-            <div className={"sidebar" + (isShown ? " show" : "")} id="sidebar">
+            <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
                 <h2 className="welcome-text">RN Band Song Repository</h2>
                 <input type="text" className="search-bar" id="searchBar" />
                 <SongList
                     type="active"
                     title="SWC"
-                    songArray={testArray.map((song, index) => { return { title: song.title, singer: song.singer, id: index } })}
+                    songArray={testArray.map((song, index) => { return { ...song, id: index } })}
+                    setActiveSong={setActiveSong}
                 />
                 <ul className="active-list" id="activeListTNL" title="TNL"></ul>
                 <ul className="active-list" id="activeListEvent" title=""></ul>
                 <SongList
-                    title="rotationList"
+                    title="ACTIVE ROTATION"
                     songArray={["Song 1", "Song 2", "Song 3"].map((song, index) => { return { title: song, id: index } })}
                 />
                 <SongList
-                    title="songList"
+                    title="SONG LIBRARY"
                     songArray={["Song 1", "Song 2", "Song 3"].map((song, index) => { return { title: song, id: index } })}
                 />
             </div>
