@@ -5,7 +5,7 @@ export function fetchAllSongs() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const blobUrl = import.meta.env.VITE_BLOB_URL + "/index/songs_list.json";
+  const blobUrl = import.meta.env.VITE_BLOB_URL + "/index/all_songs.json";
 
   useEffect(() => {
     async function fetchSongs() {
