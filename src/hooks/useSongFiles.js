@@ -16,7 +16,7 @@ export function useSongFiles(song) {
   const baseUrl = import.meta.env.VITE_BLOB_URL;
 
   useEffect(() => {
-    if (!song || !song.id || !song.title) {
+    if (!song || !song.id) {
       setMetadata(null);
       setLyrics("");
       return;
@@ -27,24 +27,21 @@ export function useSongFiles(song) {
       setError(null);
 
       try {
-        // 🔑 Convert title to kebab-case
-        const kebabTitle = toKebabCase(song.title);
-
-        // ✅ Filename pattern: {title}-{id}.json / .txt
-        const jsonUrl = `${baseUrl}/json/${kebabTitle}_${song.id}.json`;
-        const txtUrl  = `${baseUrl}/txt/${kebabTitle}_${song.id}.txt`;
+        const jsonUrl = `${baseUrl}/json/${song.id}.json`;
+        const txtUrl  = `${baseUrl}/txt/${song.id}.txt`;
 
         // fetch JSON metadata
         const jsonRes = await fetch(jsonUrl);
         if (!jsonRes.ok) {
-          throw new Error(`Metadata not found for ${song.title}`);
+          console.log(jsonRes);
+          throw new Error(`Metadata not found for ${song.id}`);
         }
         const metadata = await jsonRes.json();
 
         // fetch lyrics text
         const txtRes = await fetch(txtUrl);
         if (!txtRes.ok) {
-          throw new Error(`Lyrics not found for ${song.title}`);
+          throw new Error(`Lyrics not found for ${song.id}`);
         }
         const lyrics = await txtRes.text();
 

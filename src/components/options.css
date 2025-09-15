@@ -8,6 +8,7 @@
     border: 1px solid light-dark(black, #ccc);
     border-radius: 8px;
     background-color: light-dark(rgba(230, 230, 230, 0.3), rgba(25, 25, 25, 0.3));
+    user-select: none;
 }
 
 @keyframes fadeOutUp {

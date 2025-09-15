@@ -1,5 +1,6 @@
 .lyrics-container {
     position: relative;
+    margin-left: 50px;
     padding: 20px;
     min-width: max-content;
     max-width: 100vw;
@@ -43,4 +44,8 @@
 .chord {
     padding-right: 10px;
     color: #0067d4;
+}
+
+.hide-chords .chord {
+  display: none;
 }

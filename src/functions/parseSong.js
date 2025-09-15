@@ -1,10 +1,16 @@
-import ChordSheetJS from 'chordsheetjs';
+import ChordSheetJS, { Chord } from 'chordsheetjs';
+import { convertToNumeral } from './convertToNumeral';
 
-export function parseSong(song, lyrics) {
-    const origKey = song.defaults.Orig;
+export function parseSong(metadata, lyrics, key, keyDiff, numeralMode = false, hideChords = false) {
+    const origKey = metadata.defaults.Orig;
 
     const parser = new ChordSheetJS.UltimateGuitarParser();
-    const unserializedSong = parser.parse(`${lyrics}`).setKey(origKey).changeKey('C');
+    const unserializedSong = parser.parse(`${lyrics}`).setKey(origKey).changeKey(key).transpose(keyDiff);
+
+    if (numeralMode) {
+        console.log(unserializedSong);
+        convertToNumeral(unserializedSong, Chord.parse(key).transpose(keyDiff).toString());
+    }
 
     const formatter = new ChordSheetJS.HtmlTableFormatter();
     var disp = formatter.format(unserializedSong);
