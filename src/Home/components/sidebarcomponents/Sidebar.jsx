@@ -1,6 +1,6 @@
 import './sidebar.css'
 import SongList from './songList';
-import { fetchAllSongs } from '../../hooks/fetchAllSongs';
+import { fetchAllSongs } from '../../../hooks/fetchAllSongs';
 import LoadingSpinner from '../LoadingSpinner';
 import { useState, useEffect } from 'react';
 
