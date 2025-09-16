@@ -93,3 +93,17 @@
     transition: left 0.3s ease-in-out;
     z-index: 3;
 }
+
+.editor-link {
+    position: fixed;
+    right: 20px;
+    top: 10px;
+}
+
+.editor-link a {
+    color: inherit;
+}
+
+.editor-link a:hover {
+    text-decoration: none;
+}

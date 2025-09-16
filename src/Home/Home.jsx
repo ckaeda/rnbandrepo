@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import SongContainer from './components/SongContainer'
 import Options from './components/Options'
-import Sidebar from './components/sidebarcomponents/Sidebar'
+import Sidebar from './components/Sidebar'
 import { useSongFiles } from '../hooks/useSongFiles';
 import { parseSong } from './functions/parseSong';
 

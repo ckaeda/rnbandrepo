@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -24,43 +25,48 @@ function Login() {
     };
 
     return (
-        <form
-            style={{
-                margin: "20px",
-                display: "flex",
-                flexDirection: "column",
-                maxWidth: "300px"
-            }}
-            onSubmit={handleSubmit}
-        >
-            <center>
-                <h2>Login</h2>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                /><br />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                /><br />
-                <button
-                    type="submit"
-                    style={{
-                        marginTop: "10px",
-                        width: "100px",
-                    }}
-                >
-                    Login
-                </button>
-                {error && <p style={{ color: "red" }}>{error}</p>}
-            </center>
-        </form>
+        <>
+            <p style={{ margin: "20px" }}>
+                <Link style={{ color: "inherit" }} to="/">← Back</Link>
+            </p>
+            <form
+                style={{
+                    margin: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: "300px"
+                }}
+                onSubmit={handleSubmit}
+            >
+                <center>
+                    <h2>Login</h2>
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    /><br />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    /><br />
+                    <button
+                        type="submit"
+                        style={{
+                            marginTop: "10px",
+                            width: "100px",
+                        }}
+                    >
+                        Login
+                    </button>
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+                </center>
+            </form>
+        </>
     );
 }
 
