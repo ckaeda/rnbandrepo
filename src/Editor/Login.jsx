@@ -16,7 +16,7 @@ function Login() {
         });
 
         if (res.ok) {
-            console.log("OK")
+            console.log(res)
             // window.location.href = "/dashboard";
         } else {
             const data = await res.json();
