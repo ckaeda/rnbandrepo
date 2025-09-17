@@ -25,7 +25,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
             <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
                 <h2 className="welcome-text">RN Band Song Repository</h2>
                 <p className="editor-link">
-                    <Link to="/editor">Editor</Link>
+                    <Link to="/login">Editor</Link>
                 </p>
                 <input type="text" className="search-bar" id="searchBar" onChange={(e) => updateSongList(e.target.value)} />
                 <SongList

@@ -1,10 +1,32 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                const now = Date.now() / 1000; // current time in seconds
+
+                if (decoded.exp && decoded.exp > now) {
+                    // Token is still valid → redirect to editor
+                    navigate("/editor");
+                } else {
+                    // Token expired → clear storage
+                    localStorage.removeItem("token");
+                }
+            } catch (err) {
+                console.error("Invalid token:", err);
+                localStorage.removeItem("token");
+            }
+        }
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
