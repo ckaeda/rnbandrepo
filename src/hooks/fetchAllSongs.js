@@ -10,7 +10,9 @@ export function fetchAllSongs() {
   useEffect(() => {
     async function fetchSongs() {
       try {
-        const res = await fetch(blobUrl);
+        const url = `${blobUrl}?t=${Date.now()}`;
+        const res = await fetch(url, { method: "GET", cache: "no-cache" });
+
         if (!res.ok) throw new Error(`HTTP error! ${res.status}`);
         const data = await res.json();
         setSongs(data);

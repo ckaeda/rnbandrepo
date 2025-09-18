@@ -27,11 +27,11 @@ export function useSongFiles(song) {
       setError(null);
 
       try {
-        const jsonUrl = `${baseUrl}/json/${song.id}.json`;
-        const txtUrl  = `${baseUrl}/txt/${song.id}.txt`;
+        const jsonUrl = `${baseUrl}/json/${song.id}.json?t=${Date.now()}`;
+        const txtUrl  = `${baseUrl}/txt/${song.id}.txt?t=${Date.now()}`;
 
         // fetch JSON metadata
-        const jsonRes = await fetch(jsonUrl);
+        const jsonRes = await fetch(jsonUrl, { method: "GET", cache: "no-cache" });
         if (!jsonRes.ok) {
           console.log(jsonRes);
           throw new Error(`Metadata not found for ${song.id}`);
@@ -39,7 +39,7 @@ export function useSongFiles(song) {
         const metadata = await jsonRes.json();
 
         // fetch lyrics text
-        const txtRes = await fetch(txtUrl);
+        const txtRes = await fetch(txtUrl, { method: "GET", cache: "no-cache" });
         if (!txtRes.ok) {
           throw new Error(`Lyrics not found for ${song.id}`);
         }
