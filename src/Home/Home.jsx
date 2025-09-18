@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar'
 import { useSongFiles } from '../hooks/useSongFiles';
 import { parseSong } from './functions/parseSong';
 
-function Home() {
+function Home({ allSongs }) {
   const [activeSong, setActiveSong] = useState({});
   const [activeKey, setActiveKey] = useState({ key: "C", singer: "" });
   const [keyDiff, setKeyDiff] = useState(0);
@@ -50,6 +50,7 @@ function Home() {
   return (
     <div id='container' style={{ display: 'flex' }}>
       <Sidebar
+        allSongs={allSongs}
         toggleLoadSong={toggleLoadSong}
         showSidebar={showSidebar}
         toggleSidebar={toggleSidebar}

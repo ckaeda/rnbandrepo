@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, Navigate } from "react-router-dom";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -16,7 +16,7 @@ function Login() {
 
                 if (decoded.exp && decoded.exp > now) {
                     // Token is still valid → redirect to editor
-                    navigate("/editor");
+                    Navigate("/editor");
                 } else {
                     // Token expired → clear storage
                     localStorage.removeItem("token");
@@ -26,7 +26,7 @@ function Login() {
                 localStorage.removeItem("token");
             }
         }
-    }, [navigate]);
+    }, [Navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

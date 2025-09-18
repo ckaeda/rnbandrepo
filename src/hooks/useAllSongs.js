@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function fetchAllSongs() {
+export function useAllSongs() {
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -1,23 +1,21 @@
 import './sidebar.css'
 import SongList from './songList';
-import { fetchAllSongs } from '../../hooks/fetchAllSongs';
 import LoadingSpinner from './LoadingSpinner';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
-    const { songs, loading, error } = fetchAllSongs();
+function Sidebar({ allSongs, toggleLoadSong, showSidebar, toggleSidebar }) {
     const [filteredSongs, setFilteredSongs] = useState([]);
 
     useEffect(() => {
-        setFilteredSongs(songs);
-    }, [songs]);
+        setFilteredSongs(allSongs.songs);
+    }, [allSongs.songs]);
 
-    if (loading) return <LoadingSpinner />;
-    if (error) return <p>Error: {error}</p>;
+    if (allSongs.loading) return <LoadingSpinner />;
+    if (allSongs.error) return <p>Error: {allSongs.error}</p>;
 
     const updateSongList = (value) => {
-        setFilteredSongs(songs.filter(song => song.title.toLowerCase().includes(value.toLowerCase()) || song.artist.toLowerCase().includes(value.toLowerCase())));
+        setFilteredSongs(allSongs.songs.filter(song => song.title.toLowerCase().includes(value.toLowerCase()) || song.artist.toLowerCase().includes(value.toLowerCase())));
     }
 
     return (
@@ -25,7 +23,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
             <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
                 <h2 className="welcome-text">RN Band Song Repository</h2>
                 <p className="editor-link">
-                    <Link to="/login">Editor</Link>
+                    <Link to="/editor">Editor</Link>
                 </p>
                 <input type="text" className="search-bar" id="searchBar" onChange={(e) => updateSongList(e.target.value)} />
                 <SongList
