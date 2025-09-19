@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import LoadingSpinner from '../Home/components/LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 
 function Editor({ allSongs }) {
   const [filteredSongs, setFilteredSongs] = useState([]);

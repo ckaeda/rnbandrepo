@@ -1,8 +1,8 @@
 // App.js
 import { Routes, Route } from 'react-router-dom';
-import Home from './Home/Home';
-import Login from './Editor/Login';
-import Editor from './Editor/Editor';
+import Home from './components/Home';
+import Login from './components/Login';
+import Editor from './components/Editor';
 import { useAllSongs } from './hooks/useAllSongs';
 
 function App() {

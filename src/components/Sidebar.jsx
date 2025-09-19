@@ -1,4 +1,4 @@
-import './sidebar.css'
+import './css/sidebar.css'
 import SongList from './songList';
 import LoadingSpinner from './LoadingSpinner';
 import { useState, useEffect } from 'react';

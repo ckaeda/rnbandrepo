@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import SongContainer from './components/SongContainer'
-import Options from './components/Options'
-import Sidebar from './components/Sidebar'
+import SongContainer from './SongContainer'
+import Options from './Options'
+import Sidebar from './Sidebar'
 import { useSongFiles } from '../hooks/useSongFiles';
-import { parseSong } from './functions/parseSong';
+import { parseSong } from '../functions/parseSong';
 
 function Home({ allSongs }) {
   const [activeSong, setActiveSong] = useState({});
