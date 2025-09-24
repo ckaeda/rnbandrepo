@@ -38,7 +38,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                 />
                 <SongList
                     type="active"
-                    title=""
+                    title="PRAISE & PRAYER TNL"
                     songArray={filteredSongs.filter(song => song.event && song.event != 0).sort((a, b) => a.event - b.event)}
                     toggleLoadSong={toggleLoadSong}
                 />

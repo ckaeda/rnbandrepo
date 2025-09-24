@@ -8,8 +8,20 @@ export function parseSong(metadata, lyrics, key, keyDiff, numeralMode = false, h
     const unserializedSong = parser.parse(`${lyrics}`).setKey(origKey).changeKey(key).transpose(keyDiff);
 
     if (numeralMode) {
-        console.log(unserializedSong);
         convertToNumeral(unserializedSong, Chord.parse(key).transpose(keyDiff).toString());
+    }
+
+    console.log(unserializedSong);
+    for (let i = 0; i < unserializedSong.lines.length; i++) {
+        const line = unserializedSong.lines[i];
+        if (!line.items) continue;
+
+        for (let j = 0; j < line.items.length; j++) {
+            const item = line.items[j];
+            if (!item.chords || item.chords.trim() == "") continue;
+
+            item.chords = Chord.parse(item.chords).normalize();
+        }
     }
 
     const formatter = new ChordSheetJS.HtmlTableFormatter();
