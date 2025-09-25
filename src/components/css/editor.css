@@ -1,1 +1,55 @@
-@import "tailwindcss";
+/* h2 {
+    margin: 0px;
+} */
+
+h2:not(:first-child) {
+    margin-top: 2.5rem;
+}
+
+table {
+    width: 75%;
+    color: light-dark(oklch(55.1% .027 264.364), oklch(70.7% .022 261.325));
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: light-dark(oklch(98.5% .002 247.839), oklch(37.3% .034 259.733));
+    color: light-dark(oklch(37.3% .034 259.733), oklch(70.7% .022 261.325));
+    text-align: center;
+    text-transform: uppercase;
+}
+
+tr {
+    text-align: left;
+    background-color: light-dark(#fff, oklch(27.8% .033 256.848));
+    border-color: light-dark(oklch(92.8% .006 264.531), oklch(37.3% .034 259.733));
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+tr td:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+}
+
+span {
+    display: flex;
+    justify-content: center;
+    width: 1.5rem;
+    color: light-dark(black, white);
+    line-height: 1.5rem;
+    border: 1px solid white;
+    border-radius: .25rem;
+}
+
+span:hover {
+    background-color: oklch(55.1% .027 264.364);
+    cursor: pointer;
+}
+
+td span:last-child:not(:only-child){
+    font-size: 2.25rem;
+    font-weight: 700;
+}
