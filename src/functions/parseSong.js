@@ -11,7 +11,6 @@ export function parseSong(metadata, lyrics, key, keyDiff, numeralMode = false, h
         convertToNumeral(unserializedSong, Chord.parse(key).transpose(keyDiff).toString());
     }
 
-    console.log(unserializedSong);
     for (let i = 0; i < unserializedSong.lines.length; i++) {
         const line = unserializedSong.lines[i];
         if (!line.items) continue;

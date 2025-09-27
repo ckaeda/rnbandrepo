@@ -16,7 +16,6 @@ export function fetchAllSongs() {
 
         if (!res.ok) throw new Error(`HTTP error! ${res.status}`);
         const data = await res.json();
-        console.log(data)
         setEvent(data.event_title);
         setSongs(data.songs);
       } catch (err) {

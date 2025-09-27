@@ -5,6 +5,7 @@ import Options from './components/Options'
 import Sidebar from './components/sidebarcomponents/Sidebar'
 import { useSongFiles } from './hooks/useSongFiles';
 import { parseSong } from './functions/parseSong';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [activeSong, setActiveSong] = useState({});
@@ -49,31 +50,34 @@ function App() {
   }, [loading, metadata, lyrics, activeKey.singer, keyDiff, numeralMode, hideChords]);
 
   return (
-    <div id='container' style={{ display: 'flex' }}>
-      <Sidebar
-        toggleLoadSong={toggleLoadSong}
-        showSidebar={showSidebar}
-        toggleSidebar={toggleSidebar}
-      />
-      <Options
-        metadata={metadata}
-        activeKey={activeKey}
-        setActiveKey={setActiveKey}
-        keyDiff={keyDiff}
-        setKeyDiff={setKeyDiff}
-        numeralMode={numeralMode}
-        setNumeralMode={setNumeralMode}
-        hideChords={hideChords}
-        setHideChords={setHideChords}
-      />
-      <SongContainer
-        metadata={metadata}
-        parsedLyrics={parsedLyrics}
-        hideChords={hideChords}
-        loading={loading}
-        error={error}
-      />
-    </div>
+    <>
+      <div id='container' style={{ display: 'flex' }}>
+        <Sidebar
+          toggleLoadSong={toggleLoadSong}
+          showSidebar={showSidebar}
+          toggleSidebar={toggleSidebar}
+        />
+        <Options
+          metadata={metadata}
+          activeKey={activeKey}
+          setActiveKey={setActiveKey}
+          keyDiff={keyDiff}
+          setKeyDiff={setKeyDiff}
+          numeralMode={numeralMode}
+          setNumeralMode={setNumeralMode}
+          hideChords={hideChords}
+          setHideChords={setHideChords}
+        />
+        <SongContainer
+          metadata={metadata}
+          parsedLyrics={parsedLyrics}
+          hideChords={hideChords}
+          loading={loading}
+          error={error}
+        />
+      </div>
+      <Analytics />
+    </>
   )
 }
 
