@@ -11,14 +11,16 @@ export function convertToNumeral(unserializedSong, origKey) {
             const item = line.items[j];
             if (!item.chords || item.chords.trim() == "") continue;
 
-            console.log(`Chords ${item.chords} Line ${i} Item ${j}`);
+            // console.log(`Original: ${item.chords}`);
             item.chords = Chord.parse(item.chords)
-                .toNumeralString(origKey)
-                .replace(/([ivx]+)m/g, '$1') // Remove 'm' after lowercase Roman numerals except when followed by digits
-                .replace('#vi', 'vi') // Replace '#vi' with 'vi'
-                .replace('#iii', 'iii') // Replace '#vi' with 'vi'
-                .replace('#VI', 'bVII') // Replace '#VI' with 'bVII'
+                .toNumeral(origKey)
+                .toString()
+                .replace(/([ivx]+)m/g, '$1')
+                .replace('#vi', 'vi')
+                .replace('#iii', 'iii')
+                .replace('#VI', 'bVII')
                 ;
+            // console.log(`Numeral: ${item.chords.toString()}`);
         }
     }
 }

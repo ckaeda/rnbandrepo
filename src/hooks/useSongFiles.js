@@ -33,7 +33,6 @@ export function useSongFiles(song) {
         // fetch JSON metadata
         const jsonRes = await fetch(jsonUrl, { method: "GET", cache: "no-cache" });
         if (!jsonRes.ok) {
-          console.log(jsonRes);
           throw new Error(`Metadata not found for ${song.id}`);
         }
         const metadata = await jsonRes.json();
