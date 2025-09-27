@@ -1,6 +1,7 @@
 import './css/editor.css'
 import { useEffect, useState } from 'react'
 import LoadingSpinner from './LoadingSpinner';
+import { Link } from 'react-router-dom';
 
 function Editor({ allSongs }) {
   const [filteredSongs, setFilteredSongs] = useState([]);
@@ -14,6 +15,9 @@ function Editor({ allSongs }) {
 
   return (
     <div className="editor-container">
+      <p className="editor-link">
+        <Link to="/">Home</Link>
+      </p>
       <h2>Sunday Worship Celebration</h2>
       <table>
         <thead>
