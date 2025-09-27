@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 export function fetchAllSongs() {
+  const [event, setEvent] = useState("");
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +16,9 @@ export function fetchAllSongs() {
 
         if (!res.ok) throw new Error(`HTTP error! ${res.status}`);
         const data = await res.json();
-        setSongs(data);
+        console.log(data)
+        setEvent(data.event_title);
+        setSongs(data.songs);
       } catch (err) {
         setError(err.message);
         console.log("Error fetching songs:", err);
@@ -26,5 +29,5 @@ export function fetchAllSongs() {
     fetchSongs();
   }, [blobUrl]);
 
-  return { songs, loading, error };
+  return { event, songs, loading, error };
 }

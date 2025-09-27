@@ -5,7 +5,7 @@ import LoadingSpinner from '../LoadingSpinner';
 import { useState, useEffect } from 'react';
 
 function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
-    const { songs, loading, error } = fetchAllSongs();
+    const { event, songs, loading, error } = fetchAllSongs();
     const [filteredSongs, setFilteredSongs] = useState([]);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                 />
                 <SongList
                     type="active"
-                    title="PRAISE & PRAYER TNL"
+                    title={event}
                     songArray={filteredSongs.filter(song => song.event && song.event != 0).sort((a, b) => a.event - b.event)}
                     toggleLoadSong={toggleLoadSong}
                 />
