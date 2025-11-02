@@ -1,12 +1,33 @@
 import './sidebar.css'
 import SongList from './songList';
-import { fetchAllSongs } from '../../hooks/fetchAllSongs';
 import LoadingSpinner from '../LoadingSpinner';
 import { useState, useEffect } from 'react';
 
 function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
-    const { event, songs, loading, error } = fetchAllSongs();
+    const [event, setEvent] = useState("");
+    const [songs, setSongs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const [filteredSongs, setFilteredSongs] = useState([]);
+
+    useEffect(() => {
+        const fetchAllSongs = async () => {
+            const response = await fetch('api/getAllSongs');
+
+            if (!response.ok) setError(response.error);
+            else {
+                const result = await response.json();
+                setEvent(result.event);
+                setSongs(result.songs);
+                setLoading(false);
+
+                localStorage.setItem("songs", JSON.stringify(result.songs));
+            }
+        }
+
+        fetchAllSongs();
+    }, [])
 
     useEffect(() => {
         setFilteredSongs(songs);

@@ -21,12 +21,16 @@ function App() {
     setShowSidebar(!showSidebar);
   };
 
-  const { metadata, lyrics, loading, error } = useSongFiles(activeSong);
+  const { lyrics, loading, error } = useSongFiles(activeSong);
+  const [metadata, setMetadata] = useState(null);
 
   const toggleLoadSong = (song, singer) => {
     if (activeSong?.id === song.id) return;
     setActiveSong(song);
     setActiveKey({ ...activeKey, singer: singer })
+    const songs = JSON.parse(localStorage.getItem("songs"))
+    setMetadata(songs.find((item) => {return item.id == song.id}));
+    console.log(songs.find((item) => {return item.id == song.id}));
 
     if (singer && singer.trim() !== "") setKeyDiff(0);
   };
