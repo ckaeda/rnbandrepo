@@ -16,6 +16,36 @@
     scrollbar-width: none;
 }
 
+.sidebar img {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    filter: grayscale(1) brightness(0);
+}
+
+@media (prefers-color-scheme: dark) {
+    .sidebar img {
+        filter: grayscale(1) brightness(0.8) invert(1); /* #ccc for dark mode */
+    }
+}
+
+.rotate {
+    animation: rotateIcon 0.8s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes rotateIcon {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .sidebar.show {
     transform: translateX(0);
 }

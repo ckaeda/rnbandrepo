@@ -8,25 +8,42 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refresh, setRefresh] = useState(false);
 
     const [filteredSongs, setFilteredSongs] = useState([]);
 
-    useEffect(() => {
-        const fetchAllSongs = async () => {
-            const response = await fetch('api/getAllSongs');
+    const fetchAllSongs = async () => {
+        const response = await fetch('api/getAllSongs');
 
-            if (!response.ok) setError(response.error);
-            else {
-                const result = await response.json();
-                setEvent(result.event);
-                setSongs(result.songs);
-                setLoading(false);
+        if (!response.ok) setError(response.error);
+        else {
+            const result = await response.json();
+            setEvent(result.event);
+            setSongs(result.songs);
+            setLoading(false);
 
-                localStorage.setItem("songs", JSON.stringify(result.songs));
-            }
+            localStorage.setItem("songs", JSON.stringify(result));
         }
+    }
 
-        fetchAllSongs();
+    const refreshSongs = async () => {
+        setRefresh(true);
+        await fetchAllSongs();
+        setRefresh(false);
+    }
+
+    useEffect(() => {
+        const localSongs = JSON.parse(localStorage.getItem("songs"))
+        if (localSongs) {
+            console.log("Songs found");
+            setEvent(localSongs.event);
+            setSongs(localSongs.songs);
+            setLoading(false);
+            console.log(localSongs.songs)
+        } else {
+            console.log(localSongs)
+            fetchAllSongs();
+        }
     }, [])
 
     useEffect(() => {
@@ -44,6 +61,11 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
         <>
             <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
                 <h2 className="welcome-text">RN Band Song Repository</h2>
+                <img
+                    className={`refresh-icon ${refresh ? 'rotate' : ''}`}
+                    src='refresh.svg'
+                    onClick={refreshSongs}
+                />
                 <input type="text" className="search-bar" id="searchBar" onChange={(e) => updateSongList(e.target.value)} />
                 <SongList
                     type="active"

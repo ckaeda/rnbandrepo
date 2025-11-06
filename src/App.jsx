@@ -28,7 +28,7 @@ function App() {
     if (activeSong?.id === song.id) return;
     setActiveSong(song);
     setActiveKey({ ...activeKey, singer: singer })
-    const songs = JSON.parse(localStorage.getItem("songs"))
+    const songs = JSON.parse(localStorage.getItem("songs")).songs
     setMetadata(songs.find((item) => {return item.id == song.id}));
     console.log(songs.find((item) => {return item.id == song.id}));
 
