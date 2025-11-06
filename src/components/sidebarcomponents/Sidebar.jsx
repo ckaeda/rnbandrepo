@@ -33,19 +33,16 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     }
 
     useEffect(() => {
-        if (!JSON.parse(localStorage.getItem("songs")).event) {
+        if (localStorage.getItem("songs") && !("event" in JSON.parse(localStorage.getItem("songs")))) {
             localStorage.removeItem("songs");
         }
 
         const localSongs = JSON.parse(localStorage.getItem("songs"))
         if (localSongs) {
-            console.log("Songs found");
             setEvent(localSongs.event);
             setSongs(localSongs.songs);
             setLoading(false);
-            console.log(localSongs.songs)
         } else {
-            console.log(localSongs)
             fetchAllSongs();
         }
     }, [])
