@@ -33,6 +33,10 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     }
 
     useEffect(() => {
+        if (!JSON.parse(localStorage.getItem("songs")).event) {
+            localStorage.removeItem("songs");
+        }
+
         const localSongs = JSON.parse(localStorage.getItem("songs"))
         if (localSongs) {
             console.log("Songs found");
