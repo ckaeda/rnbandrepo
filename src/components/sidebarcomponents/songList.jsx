@@ -8,9 +8,9 @@ function SongList({ type, title, songArray, toggleLoadSong }) {
                     <ul className="active-list" id="activeList" title={title}>
                         {songArray.map((song) => {
                             const singer =
-                                title === "SWC"
+                                title.includes("SWC")
                                     ? song.swc_singer
-                                    : title === "TNL"
+                                    : title.includes("TNL")
                                         ? song.tnl_singer
                                         : song.event_singer;
 

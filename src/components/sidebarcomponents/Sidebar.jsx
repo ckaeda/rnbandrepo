@@ -4,7 +4,7 @@ import LoadingSpinner from '../LoadingSpinner';
 import { useState, useEffect } from 'react';
 
 function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
-    const [event, setEvent] = useState("");
+    const [info, setInfo] = useState({});
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -18,7 +18,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
         if (!response.ok) setError(response.error);
         else {
             const result = await response.json();
-            setEvent(result.event);
+            setInfo(result.info);
             setSongs(result.songs);
             setLoading(false);
 
@@ -33,13 +33,13 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     }
 
     useEffect(() => {
-        if (localStorage.getItem("songs") && !("event" in JSON.parse(localStorage.getItem("songs")))) {
+        if (localStorage.getItem("songs") && !("info" in JSON.parse(localStorage.getItem("songs")))) {
             localStorage.removeItem("songs");
         }
 
         const localSongs = JSON.parse(localStorage.getItem("songs"))
         if (localSongs) {
-            setEvent(localSongs.event);
+            setInfo(localSongs.info);
             setSongs(localSongs.songs);
             setLoading(false);
         } else {
@@ -70,19 +70,19 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                 <input type="text" className="search-bar" id="searchBar" onChange={(e) => updateSongList(e.target.value)} />
                 <SongList
                     type="active"
-                    title="SWC"
+                    title={`SWC — ${info.swc_date}`}
                     songArray={filteredSongs.filter(song => song.swc && song.swc != 0).sort((a, b) => a.swc - b.swc)}
                     toggleLoadSong={toggleLoadSong}
                 />
                 <SongList
                     type="active"
-                    title="TNL"
+                    title={`TNL — ${info.tnl_date}`}
                     songArray={filteredSongs.filter(song => song.tnl && song.tnl != 0).sort((a, b) => a.tnl - b.tnl)}
                     toggleLoadSong={toggleLoadSong}
                 />
                 <SongList
                     type="active"
-                    title={event}
+                    title={info.title}
                     songArray={filteredSongs.filter(song => song.event && song.event != 0).sort((a, b) => a.event - b.event)}
                     toggleLoadSong={toggleLoadSong}
                 />
