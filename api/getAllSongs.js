@@ -1,13 +1,20 @@
 export default async function handler(req, res) {
     try {
-        const songs_response = await fetch('https://rnbandrepo-e7c5.restdb.io/rest/songs', {
+        var songs_response = await fetch('https://rnbandrepo-e7c5.restdb.io/rest/songs', {
             method: "GET",
             cache: "no-cache",
             headers: { 'x-apikey': process.env.DB_API_KEY }
         });
 
         if (!songs_response.ok) {
-            throw new Error(`HTTP error! status: ${songs_response.status}`);
+            if (songs_response.status === 429) {
+                const tempUrl = `${process.env.VITE_BLOB_URL}/temp_songs.json`;
+
+                songs_response = await fetch(tempUrl, { method: "GET", cache: "no-cache" });
+
+                if (!songs_response.ok) throw new Error(`HTTP error! status: ${songs_response.status}`);
+            }
+            else throw new Error(`HTTP error! status: ${songs_response.status}`);
         }
         const songs_data = await songs_response.json();
 
@@ -30,9 +37,8 @@ export default async function handler(req, res) {
                 headers: { 'x-apikey': process.env.DB_API_KEY }
             });
 
-            if (!info_response.ok) {
-                throw new Error(`HTTP error! status: ${info_response.status}`);
-            }
+            if (!info_response.ok) throw new Error(`HTTP error! status: ${info_response.status}`);
+            
             info_data = [await info_response.json()][0][0];
 
             info_data.swc_date = formatter.format(Date.parse(info_data.swc_date))
