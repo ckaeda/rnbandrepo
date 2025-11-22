@@ -1,4 +1,4 @@
-import './songcontainer.css';
+import '../../css/songcontainer.css';
 import DOMPurify from 'dompurify';
 import LoadingSpinner from './LoadingSpinner';
 

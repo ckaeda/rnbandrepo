@@ -1,4 +1,4 @@
-import './options.css'
+import '../../css/options.css'
 import { useState } from 'react';
 import { Chord } from 'chordsheetjs';
 
