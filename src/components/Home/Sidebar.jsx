@@ -22,7 +22,6 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
             setLoading(false);
 
             localStorage.setItem("songs", JSON.stringify(result));
-            setTimeout(() => { setLoading(false); }, 5000);
 
             var date = new Date();
             localStorage.setItem("lastUpdated", date.toLocaleDateString());
