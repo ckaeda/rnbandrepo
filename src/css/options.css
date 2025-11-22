@@ -170,29 +170,13 @@
     background: light-dark(#ddd, #222);
 }
 
-.flow-container {
-    position: relative;
-    border-radius: 10px;
-}
-
-.flow-title {
+#bpm {
+    margin: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     line-height: 2vh;
-    /* padding-top: 10px; */
-}
-
-#flowList {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-#flowList li {
-    padding: 2px 0;
 }
 
 .hide-chords-button {

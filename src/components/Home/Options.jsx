@@ -94,28 +94,6 @@ function Options({ metadata, activeKey, setActiveKey, keyDiff, setKeyDiff, numer
                     })}
                 </div>
                 <div
-                    className="flow-container"
-                    id="flowContainer"
-                >
-                    <div
-                        className="flow-title"
-                    >
-                        Flow
-                    </div>
-                    <ul
-                        id="flowList"
-                    >
-                        {metadata?.flow ? metadata.flow.map((item, index) => (
-                            <li
-                                key={index}
-                            >
-                                {item}
-                            </li>
-                        )) : <li>No flow data</li>}
-                    </ul>
-                </div>
-                <div
-                    className="flow-title"
                     id="bpm"
                     style={{ display: 'flex' }}
                 >

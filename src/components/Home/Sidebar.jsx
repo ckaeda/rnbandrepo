@@ -9,7 +9,6 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refresh, setRefresh] = useState(false);
-
     const [filteredSongs, setFilteredSongs] = useState([]);
 
     const fetchAllSongs = async () => {
@@ -23,6 +22,10 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
             setLoading(false);
 
             localStorage.setItem("songs", JSON.stringify(result));
+            setTimeout(() => { setLoading(false); }, 5000);
+
+            var date = new Date();
+            localStorage.setItem("lastUpdated", date.toLocaleDateString());
         }
     }
 
@@ -38,7 +41,10 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
         }
 
         const localSongs = JSON.parse(localStorage.getItem("songs"))
-        if (localSongs) {
+        const now = new Date();
+        const lastUpdated = new Date(localStorage.getItem("lastUpdated"));
+
+        if (localSongs && (now - lastUpdated) / (1000 * 60 * 60 * 24) < 3) {
             setInfo(localSongs.info);
             setSongs(localSongs.songs);
             setLoading(false);
