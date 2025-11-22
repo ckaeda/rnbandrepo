@@ -68,6 +68,10 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
             <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
                 <h2 className="welcome-text">RN Band Song Repository</h2>
                 <img
+                    className={`snow-icon`}
+                    src='snow.gif'
+                />
+                <img
                     className={`refresh-icon ${refresh ? 'rotate' : ''}`}
                     src='refresh.svg'
                     onClick={refreshSongs}
