@@ -1,5 +1,5 @@
 import '../../css/options.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Chord } from 'chordsheetjs';
 
 function Options({ metadata, activeKey, setActiveKey, keyDiff, setKeyDiff, numeralMode, setNumeralMode, hideChords, setHideChords }) {
@@ -11,6 +11,10 @@ function Options({ metadata, activeKey, setActiveKey, keyDiff, setKeyDiff, numer
     const toggleChords = () => {
         setHideChords(!hideChords);
     }
+
+    useEffect(() => {
+        if (keyDiff <= -12 || keyDiff >= 12) setKeyDiff(0);
+    }, [keyDiff]);
 
     return (
         <>
@@ -69,7 +73,7 @@ function Options({ metadata, activeKey, setActiveKey, keyDiff, setKeyDiff, numer
                         className="transpose-key"
                         id="transposeKey"
                     >
-                        Key: {Chord.parse(activeKey.key).transpose(keyDiff).toString()}
+                        Key: {Chord.parse(activeKey.key).transpose(keyDiff).useModifier('b').normalize().toString()}
                     </div>
                 </div>
                 <div
