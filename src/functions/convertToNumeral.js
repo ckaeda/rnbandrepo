@@ -17,6 +17,7 @@ export function convertToNumeral(unserializedSong, origKey) {
                 .toString()
                 .replace(/([ivx]+)m/g, '$1')
                 .replace('#vi', 'vi')
+                .replace('bvii', 'vi')
                 .replace('#iii', 'iii')
                 .replace('#VI', 'bVII')
                 ;
