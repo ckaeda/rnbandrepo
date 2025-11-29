@@ -1,0 +1,73 @@
+.lineup-table-container,
+.song-table-container {
+    width: 100vw;
+    max-width: 1000px;
+    margin-top: 20px;
+}
+
+.event-title {
+    text-align: center;
+    margin: 5px;
+}
+
+.event-title input {
+    border: 1px solid light-dark(black, #ccc);
+    background: transparent;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    text-align: center;
+    width: 100%;
+}
+
+.song-table-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 0px 10px;
+}
+
+.song-table-title-container span {
+    font-size: 1.5em;
+    width: fit-content;
+    margin: 0px;
+    font-weight: bold;
+}
+
+.song-table-title-container input {
+    width: 50%;
+    line-height: 1.5em;
+}
+
+.song-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    border: 1px solid light-dark(black, #ccc);
+}
+
+.song-table th,
+.song-table td {
+    text-align: center;
+    padding: 6px;
+    border: 1px solid light-dark(black, #ccc);
+    overflow-wrap: break-word;
+}
+
+.actions-container {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.actions-container div {
+    width: 50px;
+    border: 1px solid light-dark(black, #ccc);
+    padding: 2px;
+}

@@ -1,95 +1,22 @@
+import { useState } from "react";
+import SongTable from "../components/Editor/SongTable";
+
 function Editor() {
     const songs = JSON.parse(localStorage.getItem("songs")).songs.sort((a, b) => a.title.localeCompare(b.title));
+    const [event_title, setEventTitle] = useState(JSON.parse(localStorage.getItem("songs")).info.title);
 
     const swc_songs = songs.filter(song => song.swc).sort((a, b) => a.swc - b.swc);
     const tnl_songs = songs.filter(song => song.tnl).sort((a, b) => a.tnl - b.tnl);
+    const event_songs = songs.filter(song => song.event).sort((a, b) => a.event - b.event);
     const active_songs = songs.filter(song => song.active).sort((a, b) => a.title.localeCompare(b.title));
 
     return (
         <>
-            <h2>Sunday Worship Celebration</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Singer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        swc_songs.map((song, index) => (
-                            <tr key={index}>
-                                <td>{song.title}</td>
-                                <td>{song.artist}</td>
-                                <td>{song.swc_singer}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-
-            <h2>Thursday Night Live</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Singer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        tnl_songs.map((song, index) => (
-                            <tr key={index}>
-                                <td>{song.title}</td>
-                                <td>{song.artist}</td>
-                                <td>{song.tnl_singer}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-
-            <h2>Active Rotation</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        active_songs.map((song, index) => (
-                            <tr key={index}>
-                                <td>{song.title}</td>
-                                <td>{song.artist}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-
-            <h2>All Songs</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        songs.map((song, index) => (
-                            <tr key={index}>
-                                <td>{song.title}</td>
-                                <td>{song.artist}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <SongTable songs={swc_songs} title="Sunday Worship Celebration" lineup="swc" />
+            <SongTable songs={tnl_songs} title="Thursday Night Live" lineup="tnl" />
+            <SongTable songs={event_songs} title={event_title} lineup="event" titleEditable={true} setEventTitle={setEventTitle} />
+            <SongTable songs={active_songs} title="Active Songs" lineup={false} />
+            <SongTable songs={songs} title="All Songs" lineup={false} />
         </>
     )
 }
