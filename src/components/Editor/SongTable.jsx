@@ -1,42 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/songtable.css";
 
-function SongTable({ songs, title, lineup = null, titleEditable = false, setEventTitle = null }) {
+function SongTable({ songs, title, lineup = null, titleEditable = false, setEventTitle = null, addSongToLineup = null, updateSongs = null }) {
     const [filteredSongs, setFilteredSongs] = useState(songs);
+    const sortedSongs = [...filteredSongs].sort((a, b) => a[lineup] - b[lineup]);
 
     const handleSearch = (value) => {
         setFilteredSongs(songs.filter(song => song.title.toLowerCase().includes(value.toLowerCase()) || song.artist.toLowerCase().includes(value.toLowerCase())));
     }
 
     const handleSwitchOrder = (song, index) => {
-        const updated = [...filteredSongs].map(s => ({ ...s }));
+        if (!lineup) return;
 
-        const currentIndex = updated.findIndex(s => s.id === song.id);
+        const sorted = [...filteredSongs].sort((a, b) => a[lineup] - b[lineup]).map(s => ({ ...s }));
+
+        const currentIndex = sorted.findIndex(s => s.id === song.id);
+        if (currentIndex === -1) return;
+
         const targetIndex = currentIndex + index;
+        if (targetIndex < 0 || targetIndex >= sorted.length) return;
 
-        if (targetIndex < 0 || targetIndex >= updated.length) return;
+        const tmp = sorted[currentIndex];
+        sorted[currentIndex] = sorted[targetIndex];
+        sorted[targetIndex] = tmp;
 
-        // Swap order values
-        const temp = updated[currentIndex][lineup];
-        updated[currentIndex][lineup] = updated[targetIndex][lineup];
-        updated[targetIndex][lineup] = temp;
+        const newOrderForId = {};
+        sorted.forEach((s, i) => {
+            newOrderForId[s.id] = i + 1;
+        });
+
+        const updated = filteredSongs.map(s => ({ ...s, [lineup]: newOrderForId[s.id] ?? s[lineup] }));
 
         setFilteredSongs(updated);
     };
+
 
     const handleRemoveSong = (song) => {
         const removedOrder = song[lineup];
 
-        const updated = filteredSongs
+        const remaining = filteredSongs
             .filter(s => s.id !== song.id)
-            .map(s => { return s[lineup] > removedOrder ?  { ...s, [lineup]: s[lineup] - 1 }: s });
-        
-        setFilteredSongs(updated);
+            .map(s => ({ ...s }));
+
+        const sortedRemaining = [...remaining].sort((a, b) => a[lineup] - b[lineup]);
+        sortedRemaining.forEach((s, index) => {
+            s[lineup] = index + 1;
+        });
+
+        setFilteredSongs(sortedRemaining);
+
+        if (updateSongs) {
+            updateSongs(prev =>
+                prev.map(s =>
+                    s.id === song.id
+                        ? { ...s, [lineup]: null }
+                        : s[lineup] > removedOrder
+                            ? { ...s, [lineup]: s[lineup] - 1 }
+                            : s
+                )
+            );
+        }
     };
+
+    useEffect(() => {
+        setFilteredSongs(songs);
+    }, [songs]);
 
     return lineup ? (
         <div className="lineup-table-container">
-            <h2 className="event-title">{titleEditable ? <input type="search" value={title || "Event Title"} onChange={(e) => setEventTitle(e.target.value)} /> : title}</h2>
+            <h2 className="event-title">{titleEditable ? <input type="search" value={title} onChange={(e) => setEventTitle(e.target.value)} /> : title}</h2>
             <table className="song-table">
                 <thead>
                     <tr>
@@ -47,22 +79,20 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        filteredSongs.sort((a, b) => a[lineup] - b[lineup]).map((song, index) => (
-                            <tr key={index}>
-                                <td>{song.title}</td>
-                                <td>{song.artist}</td>
-                                <td>{song.swc_singer || song.tnl_singer || song.event_singer}</td>
-                                <td>
-                                    <div className="actions-container">
-                                        <div onClick={() => handleSwitchOrder(song, -1)}>˄</div>
-                                        <div onClick={() => handleSwitchOrder(song, 1)}>˅</div>
-                                        <div onClick={() => handleRemoveSong(song)}>‑</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
+                    {sortedSongs.map(song => (
+                        <tr key={song.id}>
+                            <td>{song.title}</td>
+                            <td>{song.artist}</td>
+                            <td>{song.swc_singer || song.tnl_singer || song.event_singer}</td>
+                            <td>
+                                <div className="actions-container">
+                                    <div onClick={() => handleSwitchOrder(song, -1)}>˄</div>
+                                    <div onClick={() => handleSwitchOrder(song, 1)}>˅</div>
+                                    <div onClick={() => handleRemoveSong(song)}>-</div>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
@@ -82,15 +112,15 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
                 </thead>
                 <tbody>
                     {
-                        filteredSongs.map((song, index) => (
-                            <tr key={index}>
+                        filteredSongs.map((song) => (
+                            <tr key={song.id}>
                                 <td>{song.title}</td>
                                 <td>{song.artist}</td>
                                 <td>
                                     <div className="actions-container">
-                                        <div>Add to SWC</div>
-                                        <div>Add to TNL</div>
-                                        <div>Add to Event</div>
+                                        <div onClick={() => addSongToLineup(song, "swc")}>Add to SWC</div>
+                                        <div onClick={() => addSongToLineup(song, "tnl")}>Add to TNL</div>
+                                        <div onClick={() => addSongToLineup(song, "event")}>Add to Event</div>
                                     </div>
                                 </td>
                             </tr>
