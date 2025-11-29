@@ -1,0 +1,148 @@
+/* Styles for Song Editor form: make labels and inputs larger and stacked */
+.song-editor-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.song-editor-form {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.song-label {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: inherit;
+}
+
+.song-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.125rem;
+    padding: 10px 12px;
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+}
+
+.song-save-button {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 6px;
+    background-color: light-dark(#f2f2f2, #1a1a1a);
+    color: inherit;
+}
+
+.song-save-button:hover {
+    background-color: light-dark(#e6e6e6, #222);
+}
+
+/* Actions wrapper to place Back and Save side-by-side */
+.form-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    align-items: center;
+}
+
+.song-back-button {
+    padding: 10px 12px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 6px;
+    background-color: transparent;
+    color: inherit;
+}
+
+.form-actions .song-save-button {
+    /* let save fill remaining space */
+    flex: 1 1 auto;
+    width: auto;
+}
+
+/* Ensure selects and their options have visible backgrounds and text */
+.key-select {
+    -webkit-appearance: menulist-button;
+    appearance: menulist-button;
+    background-color: light-dark(#ffffff, #111111);
+    color: light-dark(#000000, #ffffff);
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 6px;
+    padding: 10px 12px;
+}
+
+.key-select option {
+    background-color: light-dark(#ffffff, #111111);
+    color: light-dark(#000000, #ffffff);
+}
+
+/* Ensure selects that also have .song-input get the proper background/color */
+.song-input.key-select,
+.key-select.song-input {
+    background-color: light-dark(#ffffff, #111111);
+    color: light-dark(#000000, #ffffff);
+}
+
+/* Scrollable defaults container to constrain height when many entries exist */
+.defaults-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+}
+
+.defaults-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.defaults-row .small-label {
+    min-width: 80px;
+}
+
+/* Simple scrollbar styling */
+.defaults-container::-webkit-scrollbar {
+    width: 10px;
+}
+.defaults-container::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+    border-radius: 6px;
+}
+
+.song-textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.125rem;
+    padding: 10px 12px;
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    font-family: "Roboto Mono", sans-serif;
+    resize: vertical;
+    white-space: pre; /* preserve whitespace and prevent wrapping */
+    overflow-wrap: normal;
+    word-break: normal;
+    overflow-x: auto; /* allow horizontal scrolling when lines are long */
+}

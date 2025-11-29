@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import "../../css/songtable.css";
+import { useNavigate } from "react-router-dom";
 
 function SongTable({ songs, title, lineup = null, titleEditable = false, setEventTitle = null, addSongToLineup = null, updateSongs = null }) {
+    const navigate = useNavigate();
+
     const [filteredSongs, setFilteredSongs] = useState(songs);
     const sortedSongs = [...filteredSongs].sort((a, b) => a[lineup] - b[lineup]);
 
@@ -81,7 +84,7 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
                 <tbody>
                     {sortedSongs.map(song => (
                         <tr key={song.id}>
-                            <td>{song.title}</td>
+                            <td className="title-link" onClick={() => navigate(`/editor/${song._id}`)}>{song.title}</td>
                             <td>{song.artist}</td>
                             <td>{song.swc_singer || song.tnl_singer || song.event_singer}</td>
                             <td>
