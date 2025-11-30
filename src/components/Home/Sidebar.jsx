@@ -7,14 +7,14 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     const [info, setInfo] = useState({});
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [refresh, setRefresh] = useState(false);
     const [filteredSongs, setFilteredSongs] = useState([]);
 
     const fetchAllSongs = async () => {
         const response = await fetch('api/getAllSongs');
 
-        if (!response.ok) setError(response.error);
+        console.log(response);
+        if (!response.ok) alert(`Could not update songs. Please try again later.`);
         else {
             const result = await response.json();
             setInfo(result.info);
@@ -57,7 +57,6 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     }, [songs]);
 
     if (loading) return <LoadingSpinner />;
-    if (error) return <p>Error: {error}</p>;
 
     const updateSongList = (value) => {
         setFilteredSongs(songs.filter(song => song.title.toLowerCase().includes(value.toLowerCase()) || song.artist.toLowerCase().includes(value.toLowerCase())));

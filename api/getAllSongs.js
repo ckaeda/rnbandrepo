@@ -6,16 +6,8 @@ export default async function handler(req, res) {
             headers: { 'x-apikey': process.env.DB_API_KEY }
         });
 
-        if (!songs_response.ok) {
-            if (songs_response.status === 429) {
-                const tempUrl = `${process.env.VITE_BLOB_URL}/temp_songs.json`;
-
-                songs_response = await fetch(tempUrl, { method: "GET", cache: "no-cache" });
-
-                if (!songs_response.ok) throw new Error(`HTTP error! status: ${songs_response.status}`);
-            }
-            else throw new Error(`HTTP error! status: ${songs_response.status}`);
-        }
+        if (!songs_response.ok) throw new Error(`HTTP error! status: ${songs_response.status}`);
+        
         const songs_data = await songs_response.json();
 
         const now = new Date();
