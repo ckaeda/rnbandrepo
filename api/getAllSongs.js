@@ -37,12 +37,14 @@ export default async function handler(req, res) {
                 headers: { 'x-apikey': process.env.DB_API_KEY }
             });
 
-            if (!info_response.ok) throw new Error(`HTTP error! status: ${info_response.status}`);
-            
-            info_data = [await info_response.json()][0][0];
+            if (!info_response.ok && info_response.status !== 429) throw new Error(`HTTP error! status: ${info_response.status}`);
 
-            info_data.swc_date = formatter.format(Date.parse(info_data.swc_date))
-            info_data.tnl_date = formatter.format(Date.parse(info_data.tnl_date))
+            if (info_response.status !== 429) {
+                info_data = [await info_response.json()][0][0];
+
+                info_data.swc_date = formatter.format(Date.parse(info_data.swc_date))
+                info_data.tnl_date = formatter.format(Date.parse(info_data.tnl_date))
+            }
         }
 
         return res.status(200).json({ info: info_data, songs: songs_data });
