@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../css/editor.css";
 import SongTable from "../components/Editor/SongTable";
+import { checkSongsEqual } from "../functions/checkSongsEqual";
 
 function Editor() {
     const stored = JSON.parse(localStorage.getItem("songs"));
@@ -26,9 +27,21 @@ function Editor() {
         setSongs(updated);
     };
 
+    const handleSave = () => {
+        const temp = JSON.parse(sessionStorage.getItem("temp"));
+
+        const toSave = temp.map(s => {
+            const origSong = songs.find(os => os.id === s.id) || {};
+
+            if (!checkSongsEqual(origSong, s)) return s;
+        })
+
+        console.log(toSave);
+    }
+
     return (
         <div className="editor-container">
-            <div className="save-button">
+            <div className="save-button" onClick={() => handleSave()}>
                 Save
             </div>
 
@@ -61,7 +74,7 @@ function Editor() {
                 addSongToLineup={addSongToLineup}
             />
             <SongTable
-                songs={songs}
+                songs={songs.filter(s => !s.swc && !s.tnl && !s.event && !s.active)}
                 title="All Songs"
                 lineup={false}
                 addSongToLineup={addSongToLineup}
