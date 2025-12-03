@@ -1,8 +1,8 @@
 .lineup-table-container,
 .song-table-container {
-    width: 100vw;
     max-width: 1000px;
     margin-top: 20px;
+    margin: 10px auto;
 }
 
 .event-title {
@@ -26,18 +26,32 @@
     align-items: center;
     margin-bottom: 10px;
     padding: 0px 10px;
+    gap: 10px;
+    width: calc(100vw - 25px);
 }
 
 .song-table-title-container span {
     font-size: 1.5em;
-    width: fit-content;
+    flex: 1;
     margin: 0px;
     font-weight: bold;
+    text-align: center;
 }
 
 .song-table-title-container input {
     width: 50%;
     line-height: 1.5em;
+    flex-shrink: 0;
+}
+
+.collapse-button {
+    background: none;
+    border: none;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 0;
+    min-width: auto;
+    margin-right: 5px;
 }
 
 .song-table {
@@ -48,6 +62,30 @@
     margin-right: auto;
     text-align: center;
     border: 1px solid light-dark(black, #ccc);
+}
+
+/* Make columns distribute evenly and ensure selects fill their cells */
+.song-table {
+    table-layout: fixed;
+}
+
+/* Default: most tables have 3 columns (Title, Artist, Actions) */
+.song-table-container .song-table th,
+.song-table-container .song-table td {
+    width: 33.3333%;
+}
+
+/* Lineup tables have 4 columns (Title, Artist, Singer, Actions) */
+.lineup-table-container .song-table th,
+.lineup-table-container .song-table td {
+    width: 25%;
+}
+
+/* Ensure selects and inputs inside table cells fill available width */
+.song-table td select,
+.song-table td input {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .song-table th,

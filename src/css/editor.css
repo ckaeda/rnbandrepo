@@ -1,0 +1,23 @@
+.editor-container {
+    width: calc(100vw - 10px);
+    padding: 5px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.save-button {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 10px;
+    padding: 8px 16px;
+    z-index: 1000;
+}
+
+.save-button:hover {
+    background-color: light-dark(#f0f0f0, #333);
+    cursor: pointer;
+}

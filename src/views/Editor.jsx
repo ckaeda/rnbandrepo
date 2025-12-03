@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../css/editor.css";
 import SongTable from "../components/Editor/SongTable";
 
 function Editor() {
@@ -26,7 +27,11 @@ function Editor() {
     };
 
     return (
-        <>
+        <div className="editor-container">
+            <div className="save-button">
+                Save
+            </div>
+
             <SongTable
                 songs={swc_songs}
                 title="Sunday Worship Celebration"
@@ -61,7 +66,7 @@ function Editor() {
                 lineup={false}
                 addSongToLineup={addSongToLineup}
             />
-        </>
+        </div>
     );
 }
 

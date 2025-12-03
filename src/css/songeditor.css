@@ -36,21 +36,27 @@
     color: inherit;
 }
 
-.song-save-button {
-    display: block;
-    width: 100%;
+.form-button {
     padding: 10px 12px;
     font-size: 1.125rem;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
     border: 1px solid light-dark(black, #ccc);
     border-radius: 6px;
-    background-color: light-dark(#f2f2f2, #1a1a1a);
     color: inherit;
+    text-align: center;
+    background-color: transparent;
 }
 
-.song-save-button:hover {
+.form-button:hover {
     background-color: light-dark(#e6e6e6, #222);
+}
+
+.song-save-button {
+    display: block;
+    background-color: light-dark(#f2f2f2, #1a1a1a);
+    flex: 1 1 auto;
+    width: auto;
 }
 
 /* Actions wrapper to place Back and Save side-by-side */
@@ -59,23 +65,6 @@
     gap: 8px;
     width: 100%;
     align-items: center;
-}
-
-.song-back-button {
-    padding: 10px 12px;
-    font-size: 1.125rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid light-dark(black, #ccc);
-    border-radius: 6px;
-    background-color: transparent;
-    color: inherit;
-}
-
-.form-actions .song-save-button {
-    /* let save fill remaining space */
-    flex: 1 1 auto;
-    width: auto;
 }
 
 /* Ensure selects and their options have visible backgrounds and text */
@@ -118,6 +107,19 @@
 
 .defaults-row .small-label {
     min-width: 80px;
+    width: 80px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.remove-row-btn {
+    background: transparent;
+    border: none;
+    color: light-dark(#111111, #ffffff);
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
 
 /* Simple scrollbar styling */

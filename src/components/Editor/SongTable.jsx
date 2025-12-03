@@ -6,6 +6,7 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
     const navigate = useNavigate();
 
     const [filteredSongs, setFilteredSongs] = useState(songs);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const sortedSongs = [...filteredSongs].sort((a, b) => a[lineup] - b[lineup]);
 
     const handleSearch = (value) => {
@@ -86,7 +87,24 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
                         <tr key={song.id}>
                             <td className="title-link" onClick={() => navigate(`/editor/${song._id}`)}>{song.title}</td>
                             <td>{song.artist}</td>
-                            <td>{song.swc_singer || song.tnl_singer || song.event_singer}</td>
+                            <td>
+                                <select
+                                    className="key-select"
+                                    value={song[`${lineup}_singer`] || ""}
+                                    onChange={(e) => {
+                                        const newSinger = e.target.value || null;
+                                        if (updateSongs) {
+                                            updateSongs(prev => prev.map(s => s.id === song.id ? { ...s, [`${lineup}_singer`]: newSinger } : s));
+                                        } else {
+                                            setFilteredSongs(prev => prev.map(s => s.id === song.id ? { ...s, [`${lineup}_singer`]: newSinger } : s));
+                                        }
+                                    }}
+                                >
+                                    {(song.defaults ? Object.keys(song.defaults).filter(k => k !== 'Orig') : []).map(name => (
+                                        <option key={name} value={name}>{name}</option>
+                                    ))}
+                                </select>
+                            </td>
                             <td>
                                 <div className="actions-container">
                                     <div onClick={() => handleSwitchOrder(song, -1)}>˄</div>
@@ -102,35 +120,43 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
     ) : (
         <div className="song-table-container">
             <div className="song-table-title-container">
+                <button 
+                    className="collapse-button"
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                >
+                    {isCollapsed ? "▶" : "▼"}
+                </button>
                 <span className="event-title">{title}</span>
-                <input type="search" onChange={(e) => { handleSearch(e.target.value) }} />
+                <input id="searchBar" type="search" placeholder="Search..." onChange={(e) => { handleSearch(e.target.value) }} />
             </div>
-            <table className="song-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        filteredSongs.map((song) => (
-                            <tr key={song.id}>
-                                <td>{song.title}</td>
-                                <td>{song.artist}</td>
-                                <td>
-                                    <div className="actions-container">
-                                        <div onClick={() => addSongToLineup(song, "swc")}>Add to SWC</div>
-                                        <div onClick={() => addSongToLineup(song, "tnl")}>Add to TNL</div>
-                                        <div onClick={() => addSongToLineup(song, "event")}>Add to Event</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            {!isCollapsed && (
+                <table className="song-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Artist</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            filteredSongs.map((song) => (
+                                <tr key={song.id}>
+                                    <td className="title-link" onClick={() => navigate(`/editor/${song._id}`)}>{song.title}</td>
+                                    <td>{song.artist}</td>
+                                    <td>
+                                        <div className="actions-container">
+                                            <div onClick={() => addSongToLineup(song, "swc")}>Add to SWC</div>
+                                            <div onClick={() => addSongToLineup(song, "tnl")}>Add to TNL</div>
+                                            <div onClick={() => addSongToLineup(song, "event")}>Add to Event</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            )}
         </div>
     )
 }
