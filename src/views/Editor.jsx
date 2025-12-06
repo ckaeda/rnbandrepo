@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../css/editor.css";
 import SongTable from "../components/Editor/SongTable";
 import { checkSongsEqual } from "../functions/checkSongsEqual";
+import { useNavigate } from "react-router-dom";
+import SongEditor from "../components/Editor/SongEditor";
 
 function Editor() {
+    const navigate = useNavigate();
+    const [showEditor, setShowEditor] = useState(false);
+    const [activeSong, setActiveSong] = useState(null);
+
     const stored = JSON.parse(localStorage.getItem("songs"));
 
     const [songs, setSongs] = useState(
@@ -39,48 +45,79 @@ function Editor() {
         console.log(toSave);
     }
 
-    return (
-        <div className="editor-container">
-            <div className="save-button" onClick={() => handleSave()}>
-                Save
+    const handleActiveSong = (song) => {
+        setShowEditor(song !== null)
+        setActiveSong(song);
+    }
+
+    useEffect(() => {
+        if (!localStorage.getItem("singers") && JSON.parse(localStorage.getItem("singers"))?.length !== 7) {
+            fetchAllSingers();
+        }
+    }, []);
+
+    return showEditor
+        ?
+        <SongEditor
+            song={activeSong}
+            handleActiveSong={handleActiveSong}
+        />
+        :
+        (
+            <div className="editor-container">
+                <div className="buttons-container">
+                    <div className="editor-button back" onClick={() => navigate('/')}>
+                        Back
+                    </div>
+                    <div className="editor-button add">
+                        Add Song
+                    </div>
+                    <div className="editor-button save" onClick={() => handleSave()}>
+                        Save
+                    </div>
+                </div>
+
+                <SongTable
+                    songs={swc_songs}
+                    title="Sunday Worship Celebration"
+                    handleActiveSong={handleActiveSong}
+                    lineup="swc"
+                    updateSongs={setSongs}
+                />
+
+                <SongTable
+                    songs={tnl_songs}
+                    title="Thursday Night Live"
+                    handleActiveSong={handleActiveSong}
+                    lineup="tnl"
+                    updateSongs={setSongs}
+                />
+
+                <SongTable
+                    songs={event_songs}
+                    title={event_title}
+                    handleActiveSong={handleActiveSong}
+                    lineup="event"
+                    titleEditable={true}
+                    setEventTitle={setEventTitle}
+                    updateSongs={setSongs}
+                />
+                <SongTable
+                    songs={active_songs}
+                    title="Active Songs"
+                    handleActiveSong={handleActiveSong}
+                    lineup={false}
+                    addSongToLineup={addSongToLineup}
+                />
+                <SongTable
+                    songs={songs.filter(s => !s.swc && !s.tnl && !s.event && !s.active)}
+                    title="All Songs"
+                    handleActiveSong={handleActiveSong}
+                    lineup={false}
+                    addSongToLineup={addSongToLineup}
+                />
             </div>
-
-            <SongTable
-                songs={swc_songs}
-                title="Sunday Worship Celebration"
-                lineup="swc"
-                updateSongs={setSongs}
-            />
-
-            <SongTable
-                songs={tnl_songs}
-                title="Thursday Night Live"
-                lineup="tnl"
-                updateSongs={setSongs}
-            />
-
-            <SongTable
-                songs={event_songs}
-                title={event_title}
-                lineup="event"
-                titleEditable={true}
-                setEventTitle={setEventTitle}
-                updateSongs={setSongs}
-            />
-            <SongTable
-                songs={active_songs}
-                title="Active Songs"
-                lineup={false}
-                addSongToLineup={addSongToLineup}
-            />
-            <SongTable
-                songs={songs.filter(s => !s.swc && !s.tnl && !s.event && !s.active)}
-                title="All Songs"
-                lineup={false}
-                addSongToLineup={addSongToLineup}
-            />
-        </div>
-    );
+        );
 }
 
 export default Editor;

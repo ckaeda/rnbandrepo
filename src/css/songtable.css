@@ -7,7 +7,7 @@
 
 .event-title {
     text-align: center;
-    margin: 5px;
+    margin: 5px 0px;
 }
 
 .event-title input {
@@ -17,7 +17,7 @@
     font-family: inherit;
     color: inherit;
     text-align: center;
-    width: 100%;
+    width: calc(100% - 6px);
 }
 
 .song-table-title-container {

@@ -2,8 +2,10 @@ import '../../css/sidebar.css'
 import SongList from './songList';
 import LoadingSpinner from './LoadingSpinner';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
+    const navigate = useNavigate();
     const [info, setInfo] = useState({});
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -66,7 +68,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     return (
         <>
             <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
-                <h2 className="welcome-text">RN Band Song Repository</h2>
+                <h2 className="welcome-text" onClick={() => navigate('/editor')}>RN Band Song Repository</h2>
                 <img
                     className={`refresh-icon ${refresh ? 'rotate' : ''}`}
                     src='refresh.svg'

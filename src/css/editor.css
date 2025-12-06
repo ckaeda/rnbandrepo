@@ -1,23 +1,45 @@
 .editor-container {
     width: calc(100vw - 10px);
-    padding: 5px;
+    padding: 0 5px;
     align-items: center;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
 }
 
-.save-button {
-    position: fixed;
-    top: 5px;
-    right: 5px;
-    border: 1px solid light-dark(black, #ccc);
-    border-radius: 10px;
-    padding: 8px 16px;
+.buttons-container {
+    background-color: light-dark(#f4f4f4, #0c0c0c);
+    display: flex;
+    align-content: space-between;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    padding: 5px 0px;
+    gap: 5px;
+    border-bottom: 1px solid light-dark(black, #ccc);
     z-index: 1000;
 }
 
-.save-button:hover {
+.editor-button {
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 10px;
+    padding: 8px 16px;
+    text-align: center;
+}
+
+.editor-button:hover {
     background-color: light-dark(#f0f0f0, #333);
     cursor: pointer;
+}
+
+.save {
+    flex-grow: 1;
+}
+
+.back {
+    flex-grow: 1;
+}
+
+.add {
+    flex-grow: 6;
 }

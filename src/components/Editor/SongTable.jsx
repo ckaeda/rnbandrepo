@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "../../css/songtable.css";
 import { useNavigate } from "react-router-dom";
 
-function SongTable({ songs, title, lineup = null, titleEditable = false, setEventTitle = null, addSongToLineup = null, updateSongs = null }) {
+function SongTable({ songs, title, handleActiveSong, lineup = null, titleEditable = false, setEventTitle = null, addSongToLineup = null, updateSongs = null }) {
     const navigate = useNavigate();
 
     const [filteredSongs, setFilteredSongs] = useState(songs);
@@ -87,7 +87,14 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
 
     return lineup ? (
         <div className="lineup-table-container">
-            <h2 className="event-title">{titleEditable ? <input type="search" value={title} onChange={(e) => setEventTitle(e.target.value)} /> : title}</h2>
+            <h2 className="event-title">{titleEditable
+                ? <>
+                    <label htmlFor="titleInput">Event</label>
+                    <input id="titleInput" type="text" placeholder="Enter event title..." value={title} onChange={(e) => setEventTitle(e.target.value)} />
+                </>
+                :
+                title}
+            </h2>
             <table className="song-table">
                 <thead>
                     <tr>
@@ -102,7 +109,7 @@ function SongTable({ songs, title, lineup = null, titleEditable = false, setEven
                         const display = getTempSong(song.id) || song;
                         return (
                             <tr key={song.id}>
-                                <td className="title-link" onClick={() => navigate(`/editor/${song._id}`)}>{display.title}</td>
+                                <td className="title-link" onClick={() => handleActiveSong(display)}>{display.title}</td>
                                 <td>{display.artist}</td>
                                 <td>
                                     <select
