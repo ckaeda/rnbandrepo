@@ -3,7 +3,7 @@ import { checkSongsEqual } from "./checkSongsEqual";
 export function getDifferentAttributes(origSong, newSong) {
     const newKeys = Object.keys(newSong);
 
-    var obj = {}
+    var obj = {_id: newSong._id}
 
     for (var key of newKeys) {
         if (typeof (origSong[key]) === "object" && checkSongsEqual(origSong[key], newSong[key])) continue;
@@ -14,5 +14,5 @@ export function getDifferentAttributes(origSong, newSong) {
         obj[key] = newSong[key];
     }
 
-    return Object.keys(obj).length === 0 ? null : obj;
+    return Object.keys(obj).length === 1 ? null : obj;
 }
