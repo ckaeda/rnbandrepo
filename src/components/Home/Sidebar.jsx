@@ -40,16 +40,9 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
         }
 
         const localSongs = JSON.parse(localStorage.getItem("songs"))
-        const now = new Date();
-        const lastUpdated = new Date(localStorage.getItem("lastUpdated"));
-
-        if (localSongs && (now - lastUpdated) / (1000 * 60 * 60 * 24) < 3) {
-            setInfo(localSongs.info);
-            setSongs(localSongs.songs);
-            setLoading(false);
-        } else {
-            fetchAllSongs();
-        }
+        setInfo(localSongs.info);
+        setSongs(localSongs.songs);
+        setLoading(false);
     }, [])
 
     useEffect(() => {
