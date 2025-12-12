@@ -23,8 +23,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
 
             localStorage.setItem("songs", JSON.stringify(result));
 
-            var date = new Date();
-            localStorage.setItem("lastUpdated", date.toLocaleDateString());
+            if (localStorage.getItem("lastUpdated")) localStorage.removeItem("lastUpdated");
         }
     }
 
@@ -35,14 +34,18 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     }
 
     useEffect(() => {
-        if (localStorage.getItem("songs") && !("info" in JSON.parse(localStorage.getItem("songs")))) {
+        const localSongs = JSON.parse(localStorage.getItem("songs"))
+        if (localSongs && !localSongs["info"]) {
             localStorage.removeItem("songs");
         }
 
-        const localSongs = JSON.parse(localStorage.getItem("songs"))
-        setInfo(localSongs.info);
-        setSongs(localSongs.songs);
-        setLoading(false);
+        if (localSongs) {
+            setInfo(localSongs.info);
+            setSongs(localSongs.songs);
+            setLoading(false);
+        } else {
+            fetchAllSongs();
+        }
     }, [])
 
     useEffect(() => {

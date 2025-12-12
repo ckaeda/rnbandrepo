@@ -33,9 +33,6 @@ export default async function handler(req, res) {
 
             if (info_response.status !== 429) {
                 info_data = [await info_response.json()][0][0];
-
-                info_data.swc_date = formatter.format(Date.parse(info_data.swc_date))
-                info_data.tnl_date = formatter.format(Date.parse(info_data.tnl_date))
             }
         }
 
