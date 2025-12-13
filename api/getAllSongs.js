@@ -32,7 +32,7 @@ export default async function handler(req, res) {
             if (!info_response.ok && info_response.status !== 429) throw new Error(`HTTP error! status: ${info_response.status}`);
 
             if (info_response.status !== 429) {
-                info_data = [await info_response.json()][0][0];
+                info_data["title"] = [await info_response.json()][0][0]["title"];
             }
         }
 
