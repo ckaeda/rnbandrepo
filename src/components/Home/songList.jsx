@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 function SongList({ type, title, songArray, toggleLoadSong }) {
-    const [isHidden, setIsHidden] = useState(false);
+    const [isHidden, setIsHidden] = useState(type === "active" ? false : true);
 
     return (
         type === "active"
