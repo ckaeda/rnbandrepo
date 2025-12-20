@@ -73,10 +73,11 @@
 
 .active-list,
 .song-list {
+    margin: 0;
     list-style: none;
     padding: 0;
-    border-top: 1px solid #fff;
-    padding-top: 20px;
+    /* border-top: 1px solid #fff; */
+    padding-bottom: 10px;
 }
 
 .song-list[title]::before,
@@ -85,7 +86,7 @@
     display: block;
     font-size: 15px;
     line-height: 30px;
-    color: #aaa;
+    color: #ccc;
     font-weight: bold;
 }
 
@@ -118,4 +119,19 @@
     -webkit-transition: left 0.3s ease-in-out;
     transition: left 0.3s ease-in-out;
     z-index: 3;
+}
+
+.toggle-btn {
+    position: absolute;
+    padding: 0;
+    left: 0;
+    top: -5px;
+    background: transparent;
+    border: none;
+}
+
+.toggle-btn img {
+    width: 13px;
+    height: 13px;
+    filter: grayscale(1) brightness(0) invert(0.75); /* Default for light mode: black */
 }

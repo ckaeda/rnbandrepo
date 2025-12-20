@@ -6,16 +6,8 @@ export default async function handler(req, res) {
             headers: { 'x-apikey': process.env.DB_API_KEY }
         });
 
-        if (!songs_response.ok) {
-            if (songs_response.status === 429) {
-                const tempUrl = `${process.env.VITE_BLOB_URL}/temp_songs.json`;
-
-                songs_response = await fetch(tempUrl, { method: "GET", cache: "no-cache" });
-
-                if (!songs_response.ok) throw new Error(`HTTP error! status: ${songs_response.status}`);
-            }
-            else throw new Error(`HTTP error! status: ${songs_response.status}`);
-        }
+        if (!songs_response.ok) throw new Error(`HTTP error! status: ${songs_response.status}`);
+        
         const songs_data = await songs_response.json();
 
         const now = new Date();
@@ -25,10 +17,16 @@ export default async function handler(req, res) {
             year: '2-digit'
         })
         var info_data = {
-            "title": "",
-            "swc_date": formatter.format(now.setDate(now.getDate() + (7 - now.getDay()) % 7)),
-            "tnl_date": formatter.format(now.setDate(now.getDate() + (4 + (7 - now.getDay())) % 7))
+            "title": ""
         };
+
+        if (songs_data.filter(song => song.swc).length > 0) {
+            info_data["swc_date"] = formatter.format(now.setDate(now.getDate() + (7 - now.getDay()) % 7));
+        }
+
+        if (songs_data.filter(song => song.tnl).length > 0) {
+            info_data["tnl_date"] = formatter.format(now.setDate(now.getDate() + (4 + (7 - now.getDay())) % 7));
+        }
 
         if (songs_data.filter(song => song.event).length > 0) {
             const info_response = await fetch('https://rnbandrepo-e7c5.restdb.io/rest/event?max=1', {
@@ -37,12 +35,13 @@ export default async function handler(req, res) {
                 headers: { 'x-apikey': process.env.DB_API_KEY }
             });
 
-            if (!info_response.ok) throw new Error(`HTTP error! status: ${info_response.status}`);
-            
-            info_data = [await info_response.json()][0][0];
+            if (!info_response.ok && info_response.status !== 429) throw new Error(`HTTP error! status: ${info_response.status}`);
 
-            info_data.swc_date = formatter.format(Date.parse(info_data.swc_date))
-            info_data.tnl_date = formatter.format(Date.parse(info_data.tnl_date))
+            if (info_response.status !== 429) {
+                const info_data_json = [await info_response.json()][0];
+                info_data["title"] = info_data_json[0]["title"];
+                info_data["event_date"] = formatter.format(Date.parse(info_data_json[0]["event_date"]));
+            }
         }
 
         return res.status(200).json({ info: info_data, songs: songs_data });
