@@ -30,7 +30,7 @@ function SongList({ type, title, songArray, toggleLoadSong }) {
                                     onClick={() => toggleLoadSong(song, singer)}
                                     style={isHidden ? { display: 'none' } : {}}
                                 >
-                                    {`${song.title} - ${song.artist} (${singer})`}
+                                    {`${song.title} - ${song.artist}` + (singer ? ` (${singer})` : '')}
                                 </li>
                             );
                         })}
