@@ -34,7 +34,7 @@ function Editor() {
         handleEditSong(songToAdd);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const temp = JSON.parse(sessionStorage.getItem("temp")) || [];
 
         const toSave = temp.map(s => {
@@ -44,6 +44,18 @@ function Editor() {
         }).filter(s => s !== undefined)
 
         console.log(toSave);
+
+        const response = await fetch('/api/sendToDB', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ songs: toSave, event_title: event_title })
+        });
+
+        if (!response.ok) {
+            console.error("Failed to save data");
+        } else {
+            console.log(response)
+        }
     }
 
     const handleActiveSong = (song) => {
