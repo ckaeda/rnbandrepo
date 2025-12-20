@@ -58,6 +58,24 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
         setFilteredSongs(songs.filter(song => song.title.toLowerCase().includes(value.toLowerCase()) || song.artist.toLowerCase().includes(value.toLowerCase())));
     }
 
+    const songLists = [
+        { title: `SWC — ${info.swc_date}`, songArray: filteredSongs.filter(song => song.swc && song.swc != 0).sort((a, b) => a.swc - b.swc), date: info.swc_date },
+        { title: `TNL — ${info.tnl_date}`, songArray: filteredSongs.filter(song => song.tnl && song.tnl != 0).sort((a, b) => a.tnl - b.tnl), date: info.tnl_date },
+        { title: `${info.title} — ${info.event_date}`, songArray: filteredSongs.filter(song => song.event && song.event != 0).sort((a, b) => a.event - b.event), date: info.event_date },
+    ].filter(list => list.date && list.date.trim() !== '');
+
+    const today = new Date();
+    songLists.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        const diffA = dateA - today;
+        const diffB = dateB - today;
+        if (diffA >= 0 && diffB >= 0) return diffA - diffB;
+        if (diffA < 0 && diffB < 0) return diffA - diffB;
+        if (diffA >= 0) return -1;
+        return 1;
+    });
+
     return (
         <>
             <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
@@ -68,24 +86,15 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                     onClick={refreshSongs}
                 />
                 <input type="text" className="search-bar" id="searchBar" onChange={(e) => updateSongList(e.target.value)} />
-                <SongList
-                    type="active"
-                    title={`SWC — ${info.swc_date}`}
-                    songArray={filteredSongs.filter(song => song.swc && song.swc != 0).sort((a, b) => a.swc - b.swc)}
-                    toggleLoadSong={toggleLoadSong}
-                />
-                <SongList
-                    type="active"
-                    title={`TNL — ${info.tnl_date}`}
-                    songArray={filteredSongs.filter(song => song.tnl && song.tnl != 0).sort((a, b) => a.tnl - b.tnl)}
-                    toggleLoadSong={toggleLoadSong}
-                />
-                <SongList
-                    type="active"
-                    title={info.title}
-                    songArray={filteredSongs.filter(song => song.event && song.event != 0).sort((a, b) => a.event - b.event)}
-                    toggleLoadSong={toggleLoadSong}
-                />
+                {songLists.map(list => (
+                    <SongList
+                        key={list.title}
+                        type="active"
+                        title={list.title}
+                        songArray={list.songArray}
+                        toggleLoadSong={toggleLoadSong}
+                    />
+                ))}
                 <SongList
                     title="ACTIVE ROTATION"
                     songArray={filteredSongs.filter(song => song.active).sort((a, b) => a.title.localeCompare(b.title))}
