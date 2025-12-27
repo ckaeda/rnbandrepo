@@ -8,7 +8,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refresh, setRefresh] = useState(false);
-    const [filteredSongs, setFilteredSongs] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const fetchAllSongs = async () => {
         const response = await fetch('api/getAllSongs');
@@ -48,20 +48,12 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
         }
     }, [])
 
-    useEffect(() => {
-        setFilteredSongs(songs);
-    }, [songs]);
-
     if (loading) return <LoadingSpinner />;
 
-    const updateSongList = (value) => {
-        setFilteredSongs(songs.filter(song => song.title.toLowerCase().includes(value.toLowerCase()) || song.artist.toLowerCase().includes(value.toLowerCase())));
-    }
-
     const songLists = [
-        { title: `SWC — ${info.swc_date}`, songArray: filteredSongs.filter(song => song.swc && song.swc != 0).sort((a, b) => a.swc - b.swc), date: info.swc_date },
-        { title: `TNL — ${info.tnl_date}`, songArray: filteredSongs.filter(song => song.tnl && song.tnl != 0).sort((a, b) => a.tnl - b.tnl), date: info.tnl_date },
-        { title: `${info.title} — ${info.event_date}`, songArray: filteredSongs.filter(song => song.event && song.event != 0).sort((a, b) => a.event - b.event), date: info.event_date },
+        { title: `SWC — ${info.swc_date}`, songArray: songs.filter(song => song.swc && song.swc != 0).sort((a, b) => a.swc - b.swc), date: info.swc_date },
+        { title: `TNL — ${info.tnl_date}`, songArray: songs.filter(song => song.tnl && song.tnl != 0).sort((a, b) => a.tnl - b.tnl), date: info.tnl_date },
+        { title: `${info.title} — ${info.event_date}`, songArray: songs.filter(song => song.event && song.event != 0).sort((a, b) => a.event - b.event), date: info.event_date },
     ].filter(list => list.date && list.date.trim() !== '');
 
     const today = new Date();
@@ -85,7 +77,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                     src='refresh.svg'
                     onClick={refreshSongs}
                 />
-                <input type="text" className="search-bar" id="searchBar" onChange={(e) => updateSongList(e.target.value)} />
+                <input type="text" className="search-bar" id="searchBar" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 {songLists.map(list => (
                     <SongList
                         key={list.title}
@@ -93,17 +85,20 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                         title={list.title}
                         songArray={list.songArray}
                         toggleLoadSong={toggleLoadSong}
+                        searchTerm={searchTerm}
                     />
                 ))}
                 <SongList
                     title="ACTIVE ROTATION"
-                    songArray={filteredSongs.filter(song => song.active).sort((a, b) => a.title.localeCompare(b.title))}
+                    songArray={songs.filter(song => song.active).sort((a, b) => a.title.localeCompare(b.title))}
                     toggleLoadSong={toggleLoadSong}
+                    searchTerm={searchTerm}
                 />
                 <SongList
                     title="SONG LIBRARY"
-                    songArray={filteredSongs.filter(song => !song.active).sort((a, b) => a.title.localeCompare(b.title))}
+                    songArray={songs.filter(song => !song.active).sort((a, b) => a.title.localeCompare(b.title))}
                     toggleLoadSong={toggleLoadSong}
+                    searchTerm={searchTerm}
                 />
             </div>
             <button className="openbtn" id="openbtn" onClick={toggleSidebar} >☰</button>
