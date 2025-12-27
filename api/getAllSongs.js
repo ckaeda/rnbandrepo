@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         
         const songs_data = await songs_response.json();
 
-        const now = new Date();
+        const now = new Date("12/25/25");
         const formatter = new Intl.DateTimeFormat('en-US', {
             month: '2-digit',
             day: '2-digit',
@@ -21,11 +21,17 @@ export default async function handler(req, res) {
         };
 
         if (songs_data.filter(song => song.swc).length > 0) {
-            info_data["swc_date"] = formatter.format(now.setDate(now.getDate() + (7 - now.getDay()) % 7));
+            const swc_date = new Date(now);
+            let daysToAdd = (0 - now.getDay() + 7) % 7;
+            swc_date.setDate(now.getDate() + daysToAdd);
+            info_data["swc_date"] = formatter.format(swc_date);
         }
 
         if (songs_data.filter(song => song.tnl).length > 0) {
-            info_data["tnl_date"] = formatter.format(now.setDate(now.getDate() + (4 + (7 - now.getDay())) % 7));
+            const tnl_date = new Date(now);
+            let daysToAdd = (4 - now.getDay() + 7) % 7;
+            tnl_date.setDate(now.getDate() + daysToAdd);
+            info_data["tnl_date"] = formatter.format(tnl_date);
         }
 
         if (songs_data.filter(song => song.event).length > 0) {
