@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SongContainer from '../components/Home/SongContainer'
 import Options from '../components/Home/Options'
 import Sidebar from '../components/Home/Sidebar'
 import { useSongFiles } from '../hooks/useSongFiles';
 import { parseSong } from '../functions/parseSong';
 import { Analytics } from '@vercel/analytics/react';
+import Autoscroll from '../components/Home/Autoscroll';
 
 function Home() {
   const [activeSong, setActiveSong] = useState({});
@@ -23,12 +24,14 @@ function Home() {
   const { lyrics, loading, error } = useSongFiles(activeSong);
   const [metadata, setMetadata] = useState(null);
 
+  const containerRef = useRef(null);
+
   const toggleLoadSong = (song, singer) => {
     if (activeSong?.id === song.id) return;
     setActiveSong(song);
     setActiveKey({ ...activeKey, singer: singer })
     const songs = JSON.parse(localStorage.getItem("songs")).songs
-    setMetadata(songs.find((item) => {return item.id == song.id}));
+    setMetadata(songs.find((item) => { return item.id == song.id }));
 
     if (singer && singer.trim() !== "") setKeyDiff(0);
   };
@@ -53,11 +56,14 @@ function Home() {
 
   return (
     <>
-      <div id='container' style={{ display: 'flex' }}>
+      <div id='container' style={{ display: 'flex', height: '100vh' }}>
         <Sidebar
           toggleLoadSong={toggleLoadSong}
           showSidebar={showSidebar}
           toggleSidebar={toggleSidebar}
+        />
+        <Autoscroll
+          containerRef={containerRef}
         />
         <Options
           metadata={metadata}
@@ -76,6 +82,7 @@ function Home() {
           hideChords={hideChords}
           loading={loading}
           error={error}
+          containerRef={containerRef}
         />
       </div>
       <Analytics />

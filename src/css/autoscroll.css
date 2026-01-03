@@ -1,0 +1,31 @@
+.autoscroll-container {
+    position: fixed;
+    min-width: 30vh;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: light-dark(#f0f0f0, #2c2c2c);
+    border: 1px solid light-dark(black, #ccc);
+    border-radius: 5px;
+    padding: 5px 10px;
+    z-index: 1;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.autoscroll-button,
+.scroll-value {
+    width: 30px;
+    height: 20px;
+    border: 1px solid light-dark(black, #ccc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 10px;
+}

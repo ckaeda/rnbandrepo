@@ -9,5 +9,7 @@ body {
     padding: 0;
     display: flex;
     position: relative;
+    height: 100vh;
+    overflow-x: hidden;
     /* Set relative positioning for absolute children */
 }
