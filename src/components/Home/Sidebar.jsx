@@ -11,25 +11,25 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     const [searchTerm, setSearchTerm] = useState("");
 
     const fetchAllSongs = async () => {
+        setRefresh(true);
         const response = await fetch('api/getAllSongs');
 
         console.log(response);
-        if (!response.ok) alert(`Could not update songs. Please try again later.`);
-        else {
+        if (!response.ok) {
+            alert(`Could not update songs. Please try again later.`);
+            const localSongs = JSON.parse(localStorage.getItem("songs"))
+            setInfo(localSongs.info);
+            setSongs(localSongs.songs);
+        } else {
             const result = await response.json();
             setInfo(result.info);
             setSongs(result.songs);
-            setLoading(false);
 
             localStorage.setItem("songs", JSON.stringify(result));
-
-            if (localStorage.getItem("lastUpdated")) localStorage.removeItem("lastUpdated");
+            localStorage.setItem("lastUpdated", new Date().toISOString());
         }
-    }
 
-    const refreshSongs = async () => {
-        setRefresh(true);
-        await fetchAllSongs();
+        setLoading(false);
         setRefresh(false);
     }
 
@@ -39,10 +39,17 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
             localStorage.removeItem("songs");
         }
 
-        if (localSongs) {
-            setInfo(localSongs.info);
-            setSongs(localSongs.songs);
-            setLoading(false);
+        const now = new Date();
+        if (localSongs && localStorage.getItem("lastUpdated")) {
+            const lastUpdated = new Date(localStorage.getItem("lastUpdated"));
+            const diffInHours = (now - lastUpdated) / (1000 * 60 * 60 * 24);
+            if (diffInHours <= 3) {
+                setInfo(localSongs.info);
+                setSongs(localSongs.songs);
+                setLoading(false);
+            } else {
+                fetchAllSongs();
+            }
         } else {
             fetchAllSongs();
         }
@@ -75,7 +82,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                 <img
                     className={`refresh-icon ${refresh ? 'rotate' : ''}`}
                     src='refresh.svg'
-                    onClick={refreshSongs}
+                    onClick={fetchAllSongs}
                 />
                 <input type="text" className="search-bar" id="searchBar" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 {songLists.map(list => (
