@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import "../css/editor.css";
-import SongTable from "../components/Editor/SongTable";
-import { checkSongsEqual } from "../functions/checkSongsEqual";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SongTable from "../components/Editor/SongTable";
 import SongEditor from "../components/Editor/SongEditor";
-import { getDifferentAttributes } from "../functions/getDifferentAttributes";
 import LoadingSpinner from "../components/Home/LoadingSpinner";
+import { checkSongsEqual } from "../functions/checkSongsEqual";
+import { getDifferentAttributes } from "../functions/getDifferentAttributes";
 import { fetchAllSongs } from "../functions/fetchAllSongs";
+import "../css/editor.css";
 
 function Editor() {
     const navigate = useNavigate();

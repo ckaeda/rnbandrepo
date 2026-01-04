@@ -69,11 +69,16 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     return (
         <>
             <div className={"sidebar" + (showSidebar ? " show" : "")} id="sidebar">
-                <h2 className="welcome-text" onClick={() => navigate('/editor')}>RN Band Song Repository</h2>
+                <h2 className="welcome-text">RN Band Song Repository</h2>
                 <img
                     className={`refresh-icon ${refresh ? 'rotate' : ''}`}
                     src='refresh.svg'
                     onClick={handleFetchSongs}
+                />
+                <img
+                    className={`editor-icon`}
+                    src='editor-icon.svg'
+                    onClick={() => navigate('/editor')}
                 />
                 <input type="text" className="search-bar" id="searchBar" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 {songLists.map(list => (

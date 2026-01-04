@@ -18,8 +18,6 @@ export default async function handler(req, res) {
                 body: JSON.stringify(songData)
             });
 
-            console.log(update_response);
-
             if (!update_response.ok) throw new Error(`HTTP error! status: ${update_response.status}`);
 
             const data = await update_response.json();
@@ -32,8 +30,6 @@ export default async function handler(req, res) {
     });
 
     const responses = await Promise.all(promises);
-
-    console.log(responses);
 
     return res.status(200).json({ "message": "Data received successfully", responses });
 }

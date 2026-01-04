@@ -17,14 +17,22 @@
     /* background-image: url('/snow.gif'); */
 }
 
-.refresh-icon {
+.refresh-icon,
+.editor-icon {
     position: fixed;
     top: 20px;
-    right: 20px;
     width: 20px;
     height: 20px;
     filter: grayscale(1) brightness(0.8) invert(1);
     cursor: pointer;
+}
+
+.refresh-icon {
+    right: 20px;
+}
+
+.editor-icon {
+    right: 50px;
 }
 
 .rotate {
@@ -133,5 +141,6 @@
 .toggle-btn img {
     width: 13px;
     height: 13px;
-    filter: grayscale(1) brightness(0) invert(0.75); /* Default for light mode: black */
+    filter: grayscale(1) brightness(0) invert(0.75);
+    /* Default for light mode: black */
 }
