@@ -1,13 +1,25 @@
 .lyrics-container {
+    width: 100%;
+    height: 90%;
     position: relative;
-    margin-left: 50px;
     padding: 20px;
-    min-width: max-content;
     max-width: 100vw;
     overflow-x: auto;
     overflow-y: auto;
     white-space: nowrap;
     z-index: 0;
+    scroll-behavior: smooth;
+    font-size: 0.85em;
+}
+
+.lyrics-outer-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    overflow-x: auto;
 }
 
 .lyrics-container h1 {

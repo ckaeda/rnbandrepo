@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         
         const songs_data = await songs_response.json();
 
-        const now = new Date("12/25/25");
+        const now = new Date();
         const formatter = new Intl.DateTimeFormat('en-US', {
             month: '2-digit',
             day: '2-digit',
