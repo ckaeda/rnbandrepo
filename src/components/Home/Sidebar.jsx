@@ -3,6 +3,7 @@ import SongList from './songList';
 import LoadingSpinner from './LoadingSpinner';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchAllSongs } from '../../functions/fetchAllSongs';
 
 function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     const navigate = useNavigate();
@@ -12,24 +13,12 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
     const [refresh, setRefresh] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
 
-    const fetchAllSongs = async () => {
+    const handleFetchSongs = async () => {
         setRefresh(true);
-        const response = await fetch('api/getAllSongs');
 
-        console.log(response);
-        if (!response.ok) {
-            alert(`Could not update songs. Please try again later.`);
-            const localSongs = JSON.parse(localStorage.getItem("songs"))
-            setInfo(localSongs.info);
-            setSongs(localSongs.songs);
-        } else {
-            const result = await response.json();
-            setInfo(result.info);
-            setSongs(result.songs);
-
-            localStorage.setItem("songs", JSON.stringify(result));
-            localStorage.setItem("lastUpdated", new Date().toISOString());
-        }
+        const songsData = await fetchAllSongs();
+        setInfo(songsData.info);
+        setSongs(songsData.songs);
 
         setLoading(false);
         setRefresh(false);
@@ -50,10 +39,10 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                 setSongs(localSongs.songs);
                 setLoading(false);
             } else {
-                fetchAllSongs();
+                handleFetchSongs();
             }
         } else {
-            fetchAllSongs();
+            handleFetchSongs();
         }
     }, [])
 
@@ -84,7 +73,7 @@ function Sidebar({ toggleLoadSong, showSidebar, toggleSidebar }) {
                 <img
                     className={`refresh-icon ${refresh ? 'rotate' : ''}`}
                     src='refresh.svg'
-                    onClick={fetchAllSongs}
+                    onClick={handleFetchSongs}
                 />
                 <input type="text" className="search-bar" id="searchBar" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 {songLists.map(list => (

@@ -5,11 +5,15 @@ import { checkSongsEqual } from "../functions/checkSongsEqual";
 import { useNavigate } from "react-router-dom";
 import SongEditor from "../components/Editor/SongEditor";
 import { getDifferentAttributes } from "../functions/getDifferentAttributes";
+import LoadingSpinner from "../components/Home/LoadingSpinner";
+import { fetchAllSongs } from "../functions/fetchAllSongs";
 
 function Editor() {
     const navigate = useNavigate();
     const [showEditor, setShowEditor] = useState(false);
     const [activeSong, setActiveSong] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState("");
 
     const stored = JSON.parse(localStorage.getItem("songs"));
     const [event_title, setEventTitle] = useState(stored.info.title);
@@ -43,18 +47,27 @@ function Editor() {
             if (diff) return diff;
         }).filter(s => s !== undefined)
 
-        console.log(toSave);
+        setLoading(true);
+        try {
+            setStatus("Saving changes to database...");
+            const response = await fetch('/api/sendToDB', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ songs: toSave, event_title: event_title })
+            });
 
-        const response = await fetch('/api/sendToDB', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ songs: toSave, event_title: event_title })
-        });
-
-        if (!response.ok) {
-            console.error("Failed to save data");
-        } else {
-            console.log(response)
+            if (!response.ok) {
+                console.error("Failed to save data");
+            } else {
+                setStatus("Songs updated! Returning to home...");
+                sessionStorage.removeItem("temp");
+                await fetchAllSongs();
+                navigate('/');
+            }
+        } catch (e) {
+            console.error("Error during save:", e);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -114,63 +127,67 @@ function Editor() {
             handleEditSong={handleEditSong}
         />
         :
-        (
-            <div className="editor-container">
-                <div className="buttons-container">
-                    <div className="editor-button back" onClick={() => navigate('/')}>
-                        Back
+        loading
+            ?
+            <LoadingSpinner status={status} />
+            :
+            (
+                <div className="editor-container">
+                    <div className="buttons-container">
+                        <div className="editor-button back" onClick={() => navigate('/')}>
+                            Back
+                        </div>
+                        <div className="editor-button add">
+                            Add Song
+                        </div>
+                        <div className="editor-button save" onClick={() => handleSave()}>
+                            Save
+                        </div>
                     </div>
-                    <div className="editor-button add">
-                        Add Song
-                    </div>
-                    <div className="editor-button save" onClick={() => handleSave()}>
-                        Save
-                    </div>
+
+                    <SongTable
+                        songs={swc_songs}
+                        title="Sunday Worship Celebration"
+                        handleActiveSong={handleActiveSong}
+                        handleEditSong={handleEditSong}
+                        lineup="swc"
+                    />
+
+                    <SongTable
+                        songs={tnl_songs}
+                        title="Thursday Night Live"
+                        handleActiveSong={handleActiveSong}
+                        handleEditSong={handleEditSong}
+                        lineup="tnl"
+                    />
+
+                    <SongTable
+                        songs={event_songs}
+                        title={event_title}
+                        handleActiveSong={handleActiveSong}
+                        handleEditSong={handleEditSong}
+                        lineup="event"
+                        titleEditable={true}
+                        setEventTitle={setEventTitle}
+                    />
+                    <SongTable
+                        songs={active_songs}
+                        title="Active Songs"
+                        handleActiveSong={handleActiveSong}
+                        handleEditSong={handleEditSong}
+                        lineup={false}
+                        addSongToLineup={addSongToLineup}
+                    />
+                    <SongTable
+                        songs={songs.filter(s => !s.swc && !s.tnl && !s.event && !s.active)}
+                        title="All Songs"
+                        handleActiveSong={handleActiveSong}
+                        handleEditSong={handleEditSong}
+                        lineup={false}
+                        addSongToLineup={addSongToLineup}
+                    />
                 </div>
-
-                <SongTable
-                    songs={swc_songs}
-                    title="Sunday Worship Celebration"
-                    handleActiveSong={handleActiveSong}
-                    handleEditSong={handleEditSong}
-                    lineup="swc"
-                />
-
-                <SongTable
-                    songs={tnl_songs}
-                    title="Thursday Night Live"
-                    handleActiveSong={handleActiveSong}
-                    handleEditSong={handleEditSong}
-                    lineup="tnl"
-                />
-
-                <SongTable
-                    songs={event_songs}
-                    title={event_title}
-                    handleActiveSong={handleActiveSong}
-                    handleEditSong={handleEditSong}
-                    lineup="event"
-                    titleEditable={true}
-                    setEventTitle={setEventTitle}
-                />
-                <SongTable
-                    songs={active_songs}
-                    title="Active Songs"
-                    handleActiveSong={handleActiveSong}
-                    handleEditSong={handleEditSong}
-                    lineup={false}
-                    addSongToLineup={addSongToLineup}
-                />
-                <SongTable
-                    songs={songs.filter(s => !s.swc && !s.tnl && !s.event && !s.active)}
-                    title="All Songs"
-                    handleActiveSong={handleActiveSong}
-                    handleEditSong={handleEditSong}
-                    lineup={false}
-                    addSongToLineup={addSongToLineup}
-                />
-            </div>
-        );
+            );
 }
 
 export default Editor;

@@ -1,6 +1,6 @@
 import "../../css/loadingspinner.css";
 
-function LoadingSpinner() {
+function LoadingSpinner({ status }) {
     return (
         <div className="spinner-fullscreen">
             <img
@@ -8,6 +8,8 @@ function LoadingSpinner() {
                 className="spinner"
                 alt="Loading..."
             />
+            <br />
+            {status && status !== "" && <div className="loading-status">{status}</div>}
         </div>
     );
 }
